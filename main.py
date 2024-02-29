@@ -24,8 +24,7 @@ class MyMainWindow(QMainWindow):
         self.api_manager = APIManager(self.server_thread)
 
         get_user_button = QPushButton("GET USER", self)
-        get_user_button.clicked.connect(self.api_manager.get_user)
-        self.api_manager.api_response_received.connect(self.handle_api_response)
+        get_user_button.clicked.connect(lambda: self.get_user("jamgarten@example.com"))
 
         layout.addWidget(get_user_button)
         self.setCentralWidget(central_widget)
@@ -35,11 +34,11 @@ class MyMainWindow(QMainWindow):
         self.server_thread.server_started.connect(self.on_server_started)
         self.server_thread.start()
 
+    def get_user(self, email):
+        print(self.api_manager.get_user(email))
+
     def on_server_started(self):
         print("Flask server started!")
-
-    def handle_api_response(self, response):
-        print(response)
 
 
 if __name__ == "__main__":
