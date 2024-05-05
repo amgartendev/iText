@@ -1,8 +1,7 @@
 import os
 import sys
 
-sys.path.append("/Users/amgarten/Desktop/Code/Python/iText/src/")
-sys.path.append("/Users/amgarten/Desktop/Code/Python/iText/src/api/")
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir)))
 
 import contacts
 from ui import *
