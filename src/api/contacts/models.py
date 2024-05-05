@@ -1,5 +1,5 @@
 from database import Base
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Text
 
 
 class Contacts(Base):
@@ -7,4 +7,4 @@ class Contacts(Base):
 
     id = Column(Integer, primary_key=True)
     user_uid = Column(String(36), unique=True, index=True)
-    contacts = Column(String(280), index=True)
+    contacts = Column(Text, index=True)

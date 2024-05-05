@@ -8,8 +8,8 @@ router = APIRouter()
 
 
 @router.get("/")
-def read_contacts(db: Session = Depends(get_db)):
-    contacts = crud.get_contacts(db)
+def read_contacts(user_uid, db: Session = Depends(get_db)):
+    contacts = crud.get_contacts(db, user_uid)
     return contacts
 
 
