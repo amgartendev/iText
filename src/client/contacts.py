@@ -7,12 +7,13 @@ from dotenv import load_dotenv
 
 from utils import API_URL, PROJECT_PATH
 
+UID_TEST_TOKEN = os.environ.get("UID_TEST_TOKEN")
 loaded_dotenv = load_dotenv()
 
 
-def populate(ui, user_uid):
+def populate(ui, user_uid, update=False):
     contacts_cache = os.path.isfile(f"{PROJECT_PATH}/contacts")
-    if contacts_cache:
+    if contacts_cache and not update:
         with open(f"{PROJECT_PATH}/contacts", "r") as file:
             contacts_data = file.read()
             if contacts_data:
@@ -40,5 +41,26 @@ def populate(ui, user_uid):
             return error_message
 
 
-def add():
-    pass
+def add(contact_username, contact_name):
+    try:
+        # Check if the user exists by its username
+        check_user_response = requests.get(
+            API_URL + f"users?username={contact_username}"
+        )
+        if check_user_response.status_code != 200:
+            return False
+
+        if check_user_response.json() is None:
+            return False
+
+        contact_uid = check_user_response.json()["unique_id"]
+
+        # Add the user to the contacts, get the contact_uid by its username
+        response = requests.post(
+            API_URL
+            + f"contacts/add_contact?user_uid={UID_TEST_TOKEN}&contact_uid={contact_uid}&contact_name={contact_name}"
+        )
+        if response.status_code == 200:
+            return True
+    except Exception as error_message:
+        return error_message

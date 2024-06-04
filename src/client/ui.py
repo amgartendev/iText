@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'uirpIQel.ui'
+## Form generated from reading UI file 'uizePtAN.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.0
 ##
@@ -87,7 +87,15 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_4.addWidget(self.lineEdit_search)
 
-        self.verticalLayout_2.addWidget(self.search_frame, 0, Qt.AlignmentFlag.AlignTop)
+        self.pushButton_add_contact = QPushButton(self.search_frame)
+        self.pushButton_add_contact.setObjectName("pushButton_add_contact")
+        self.pushButton_add_contact.setStyleSheet(
+            "QPushButton {\n" "	color: #000000;\n" "}"
+        )
+
+        self.horizontalLayout_4.addWidget(self.pushButton_add_contact)
+
+        self.verticalLayout_2.addWidget(self.search_frame)
 
         self.contacts_list_frame = QFrame(self.contacts_frame)
         self.contacts_list_frame.setObjectName("contacts_list_frame")
@@ -221,6 +229,9 @@ class Ui_MainWindow(object):
         self.lineEdit_search.setText("")
         self.lineEdit_search.setPlaceholderText(
             QCoreApplication.translate("MainWindow", "Search...", None)
+        )
+        self.pushButton_add_contact.setText(
+            QCoreApplication.translate("MainWindow", "Add Contact", None)
         )
         self.label_to.setText(QCoreApplication.translate("MainWindow", "To:", None))
         self.label_contact.setText(

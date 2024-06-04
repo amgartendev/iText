@@ -8,6 +8,6 @@ router = APIRouter()
 
 
 @router.get("/")
-def read_users(db: Session = Depends(get_db)):
-    users = crud.get_users(db)
+def read_users(username: str = None, db: Session = Depends(get_db)):
+    users = crud.get_users(username, db)
     return users
