@@ -9,6 +9,8 @@ import contacts
 from PySide6.QtWidgets import QDialog, QLineEdit, QPushButton, QVBoxLayout
 from ui import *
 
+import utils
+
 UID_TEST_TOKEN = os.environ.get("UID_TEST_TOKEN")
 
 
@@ -41,23 +43,13 @@ class MainWindow(QMainWindow):
                 contact = self.ui.listWidget_contacts.item(index)
                 if contact_username == contact.text():
                     dialog.close()
-                    layout = QVBoxLayout()
-                    error_dialog = QDialog(self)
-                    error_label = QLabel("This person is already in your contact list.")
-                    layout.addWidget(error_label)
-                    error_dialog.setLayout(layout)
-                    error_dialog.exec()
+                    utils.custom_dialog(self, "This person is already in your contact list.")
                     return
 
             response = contacts.add(contact_username, contact_name)
             if not response:
                 dialog.close()
-                layout = QVBoxLayout()
-                error_dialog = QDialog(self)
-                error_label = QLabel("An error occurred.")
-                layout.addWidget(error_label)
-                error_dialog.setLayout(layout)
-                error_dialog.exec()
+                utils.custom_dialog(self, "An error occurred.")
                 return
 
             self.ui.listWidget_contacts.clear()
