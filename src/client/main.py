@@ -25,6 +25,7 @@ class MainWindow(QMainWindow):
 
     def add_contact(self):
         dialog = QDialog()
+        dialog.setWindowTitle("Add Contact")
         layout = QVBoxLayout(dialog)
         contact_username_lineEdit = QLineEdit()
         contact_name_lineEdit = QLineEdit()
@@ -43,7 +44,7 @@ class MainWindow(QMainWindow):
                 contact = self.ui.listWidget_contacts.item(index)
                 if contact_username == contact.text():
                     dialog.close()
-                    utils.custom_dialog(self, "This person is already in your contact list.")
+                    utils.custom_dialog(self, "Add Contact", "This person is already in your contact list.")
                     return
 
             try:
@@ -51,7 +52,7 @@ class MainWindow(QMainWindow):
             except Exception as error_message:
                 error_message = str(error_message)
                 dialog.close()
-                utils.custom_dialog(self, error_message)
+                utils.custom_dialog(self, "Add Contact", error_message)
                 return
 
             self.ui.listWidget_contacts.clear()
@@ -65,5 +66,6 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
+    window.setWindowTitle("iText")
     window.show()
     app.exec()

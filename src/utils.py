@@ -8,9 +8,10 @@ PROJECT_PATH = os.path.abspath(
 )
 
 
-def custom_dialog(parent, message=None):
+def custom_dialog(parent, title="", message=None):
     layout = QVBoxLayout()
     error_dialog = QDialog(parent)
+    error_dialog.setWindowTitle(title)
     error_label = QLabel(message)
     layout.addWidget(error_label)
     error_dialog.setLayout(layout)
