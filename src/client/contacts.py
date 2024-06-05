@@ -2,7 +2,6 @@ import ast
 import json
 import os
 
-from custom_exceptions import EndpointException
 import requests
 from dotenv import load_dotenv
 
