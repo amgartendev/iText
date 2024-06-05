@@ -46,10 +46,12 @@ class MainWindow(QMainWindow):
                     utils.custom_dialog(self, "This person is already in your contact list.")
                     return
 
-            response = contacts.add(contact_username, contact_name)
-            if not response:
+            try:
+                response = contacts.add(contact_username, contact_name)
+            except Exception as error_message:
+                error_message = str(error_message)
                 dialog.close()
-                utils.custom_dialog(self, "An error occurred.")
+                utils.custom_dialog(self, error_message)
                 return
 
             self.ui.listWidget_contacts.clear()

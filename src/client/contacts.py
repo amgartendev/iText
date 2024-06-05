@@ -2,6 +2,7 @@ import ast
 import json
 import os
 
+from custom_exceptions import EndpointException
 import requests
 from dotenv import load_dotenv
 
@@ -48,10 +49,10 @@ def add(contact_username, contact_name):
             API_URL + f"users?username={contact_username}"
         )
         if check_user_response.status_code != 200:
-            return False
+            raise Exception("Something went wrong.")
 
         if check_user_response.json() is None:
-            return False
+            raise Exception("This person does not exists!")
 
         contact_uid = check_user_response.json()["unique_id"]
 
@@ -63,4 +64,4 @@ def add(contact_username, contact_name):
         if response.status_code == 200:
             return True
     except Exception as error_message:
-        return error_message
+        raise Exception(error_message)
