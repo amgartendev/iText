@@ -35,6 +35,9 @@
       <property name="styleSheet">
        <string notr="true"/>
       </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
       <widget class="QWidget" name="login_window"/>
       <widget class="QWidget" name="main_window">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -53,7 +56,7 @@
         <property name="bottomMargin">
          <number>0</number>
         </property>
-        <item alignment="Qt::AlignLeft">
+        <item alignment="Qt::AlignmentFlag::AlignLeft">
          <widget class="QFrame" name="contacts_frame">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -77,10 +80,10 @@
            <string notr="true">background-color: brown;</string>
           </property>
           <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+           <enum>QFrame::Shape::NoFrame</enum>
           </property>
           <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
+           <enum>QFrame::Shadow::Raised</enum>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <property name="spacing">
@@ -98,7 +101,7 @@
            <property name="bottomMargin">
             <number>0</number>
            </property>
-           <item alignment="Qt::AlignTop">
+           <item>
             <widget class="QFrame" name="search_frame">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -116,10 +119,10 @@
               <string notr="true">background-color: pink;</string>
              </property>
              <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
+              <enum>QFrame::Shape::NoFrame</enum>
              </property>
              <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
+              <enum>QFrame::Shadow::Raised</enum>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_4">
               <item>
@@ -129,6 +132,18 @@
                 </property>
                 <property name="placeholderText">
                  <string>Search...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_add_contact">
+                <property name="styleSheet">
+                 <string notr="true">QPushButton {
+	color: #000000;
+}</string>
+                </property>
+                <property name="text">
+                 <string>Add Contact</string>
                 </property>
                </widget>
               </item>
@@ -147,24 +162,19 @@
               <string notr="true">background-color: lightgreen;</string>
              </property>
              <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
+              <enum>QFrame::Shape::NoFrame</enum>
              </property>
              <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
+              <enum>QFrame::Shadow::Raised</enum>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
                <widget class="QListWidget" name="listWidget_contacts">
-                <item>
-                 <property name="text">
-                  <string>Person 1</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Person 2</string>
-                 </property>
-                </item>
+                <property name="styleSheet">
+                 <string notr="true">QListWidget {
+	color: #000000;
+}</string>
+                </property>
                </widget>
               </item>
              </layout>
@@ -197,10 +207,10 @@
            <string notr="true">background-color: cyan;</string>
           </property>
           <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+           <enum>QFrame::Shape::NoFrame</enum>
           </property>
           <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
+           <enum>QFrame::Shadow::Raised</enum>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <property name="spacing">
@@ -224,10 +234,10 @@
               <string notr="true">background-color: lightyellow;</string>
              </property>
              <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
+              <enum>QFrame::Shape::NoFrame</enum>
              </property>
              <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
+              <enum>QFrame::Shadow::Raised</enum>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_5">
               <item>
@@ -237,6 +247,11 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLabel {
+	color: #000000;
+}</string>
                 </property>
                 <property name="text">
                  <string>To:</string>
@@ -251,13 +266,23 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true">QLabel {
+	color: #000000;
+}</string>
+                </property>
                 <property name="text">
                  <string>Contact Here</string>
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignRight">
+              <item alignment="Qt::AlignmentFlag::AlignRight">
                <widget class="QPushButton" name="pushButton_details">
+                <property name="styleSheet">
+                 <string notr="true">QPushButton {
+	color: #000000;
+}</string>
+                </property>
                 <property name="text">
                  <string>Details</string>
                 </property>
@@ -269,7 +294,7 @@
            <item>
             <widget class="QListView" name="listView_messages"/>
            </item>
-           <item alignment="Qt::AlignBottom">
+           <item alignment="Qt::AlignmentFlag::AlignBottom">
             <widget class="QFrame" name="list_view_messages_frame">
              <property name="minimumSize">
               <size>
@@ -281,10 +306,10 @@
               <string notr="true">background-color: green;</string>
              </property>
              <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
+              <enum>QFrame::Shape::NoFrame</enum>
              </property>
              <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
+              <enum>QFrame::Shadow::Raised</enum>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>

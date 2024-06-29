@@ -1,4 +1,6 @@
 import env
+import uvicorn
+from contacts.router import router as contacts_router
 from database import Base, engine
 from fastapi import FastAPI
 from users.router import router as users_router
@@ -24,8 +26,7 @@ async def healthcheck() -> dict[str, str]:
 
 
 app.include_router(users_router, prefix="/users", tags=["Users"])
+app.include_router(contacts_router, prefix="/contacts", tags=["Contacts"])
 
 if __name__ == "__main__":
-    import uvicorn
-
     uvicorn.run("main:app", port=8000, reload=True)
