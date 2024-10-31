@@ -3,6 +3,7 @@ from typing import List
 from uuid import uuid4
 
 from core.deps import get_session
+from core.utils import ERROR_MESSAGES
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from models.user_model import UserModel
 from schemas.user_schema import (UserSchemaBase, UserSchemaCreate,
@@ -10,7 +11,6 @@ from schemas.user_schema import (UserSchemaBase, UserSchemaCreate,
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
-USER_NOT_FOUND_ERROR = "User not found."
 
 router = APIRouter()
 
@@ -52,7 +52,7 @@ async def get_user(user_id: int, db: AsyncSession = Depends(get_session)):
         user: UserModel = result.scalars().one_or_none()
 
         if not user:
-            raise HTTPException(detail=USER_NOT_FOUND_ERROR, status_code=status.HTTP_404_NOT_FOUND)
+            raise HTTPException(detail=ERROR_MESSAGES["USER_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
         return user
 
 
@@ -65,7 +65,7 @@ async def put_profile(user_id: int, user: UserSchemaUpdate, db: AsyncSession = D
         user_update: UserModel = result.scalars().one_or_none()
 
         if not user_update:
-            raise HTTPException(detail=USER_NOT_FOUND_ERROR, status_code=status.HTTP_404_NOT_FOUND)
+            raise HTTPException(detail=ERROR_MESSAGES["USER_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
 
         if user.first_name:
             user_update.first_name = user.first_name
@@ -92,7 +92,7 @@ async def put_deleted_flag(user_id: int, db: AsyncSession = Depends(get_session)
         update: UserModel = result.scalars().one_or_none()
 
         if not update:
-            raise HTTPException(detail=USER_NOT_FOUND_ERROR, status_code=status.HTTP_404_NOT_FOUND)
+            raise HTTPException(detail=ERROR_MESSAGES["USER_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
 
         update.deleted = 1
         await session.commit()
