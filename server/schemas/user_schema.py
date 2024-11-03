@@ -26,3 +26,8 @@ class UserSchemaUpdate(UserSchemaCreate):
     last_name: Optional[str] = None
     username: Optional[str] = None
     password: Optional[str] = None
+
+
+class UserSchemaLogin(BaseModel):
+    username: str
+    password: str 
