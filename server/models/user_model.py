@@ -9,7 +9,7 @@ class UserModel(settings.DBBaseModel):
     user_uid = Column(String(255))
     first_name = Column(String(255))
     last_name = Column(String(255))
-    username = Column(String(255))
+    username = Column(String(255), unique=True)
     password = Column(String(255))
     created_at = Column(DateTime)
     deleted = Column(Integer, default=0)

@@ -40,6 +40,13 @@ async def post_user(user: UserSchemaCreate, db: AsyncSession = Depends(get_sessi
         deleted=user.deleted,
     )
     async with db as session:
+        query = select(UserModel).filter(UserModel.username == user.username)
+        result = await session.execute(query)
+        user: UserModel = result.scalars().one_or_none()
+
+        if user:
+            raise HTTPException(detail=ERROR_MESSAGES["USERNAME_ALREADY_TAKEN"], status_code=status.HTTP_406_NOT_ACCEPTABLE)
+
         session.add(new_user)
         await session.commit()
         return new_user
