@@ -7,15 +7,27 @@ from core.utils import ERROR_MESSAGES
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from models.user_model import UserModel
 from schemas.user_schema import (UserSchemaBase, UserSchemaCreate,
-                                 UserSchemaUpdate)
+                                 UserSchemaLogin, UserSchemaUpdate)
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
 
 router = APIRouter()
 
+# POST Login
+@router.post("/login", response_model=UserSchemaBase, status_code=status.HTTP_200_OK)
+async def login(user: UserSchemaLogin, db: AsyncSession = Depends(get_session)):
+    async with db as session:
+        query = select(UserModel).filter(UserModel.username == user.username).filter(UserModel.password == user.password)
+        result = await session.execute(query)
+        user: UserSchemaBase = result.scalars().one_or_none()
 
-# Post User
+        if not user:
+            raise HTTPException(detail=ERROR_MESSAGES["INCORRECT_LOGIN"], status_code=status.HTTP_401_UNAUTHORIZED)
+        return user
+
+
+# POST User
 @router.post("/", response_model=UserSchemaBase, status_code=status.HTTP_201_CREATED)
 async def post_user(user: UserSchemaCreate, db: AsyncSession = Depends(get_session)):
     new_user: UserModel = UserModel(
@@ -52,30 +64,40 @@ async def get_user(user_id: int, db: AsyncSession = Depends(get_session)):
         user: UserModel = result.scalars().one_or_none()
 
         if not user:
-            raise HTTPException(detail=ERROR_MESSAGES["USER_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
+            raise HTTPException(
+                detail=ERROR_MESSAGES["USER_NOT_FOUND"],
+                status_code=status.HTTP_404_NOT_FOUND,
+            )
         return user
 
 
 # PUT Update Profile
-@router.put("/{user_id}", response_model=UserSchemaBase, status_code=status.HTTP_202_ACCEPTED)
-async def put_profile(user_id: int, user: UserSchemaUpdate, db: AsyncSession = Depends(get_session)):
+@router.put(
+    "/{user_id}", response_model=UserSchemaBase, status_code=status.HTTP_202_ACCEPTED
+)
+async def put_profile(
+    user_id: int, user: UserSchemaUpdate, db: AsyncSession = Depends(get_session)
+):
     async with db as session:
         query = select(UserModel).filter(UserModel.id == user_id)
         result = await session.execute(query)
         user_update: UserModel = result.scalars().one_or_none()
 
         if not user_update:
-            raise HTTPException(detail=ERROR_MESSAGES["USER_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
+            raise HTTPException(
+                detail=ERROR_MESSAGES["USER_NOT_FOUND"],
+                status_code=status.HTTP_404_NOT_FOUND,
+            )
 
         if user.first_name:
             user_update.first_name = user.first_name
-        
+
         if user.last_name:
             user_update.last_name = user.last_name
-        
+
         if user.username:
             user_update.username = user.username
-        
+
         if user.password:
             user_update.password = user.password
 
@@ -92,7 +114,10 @@ async def put_deleted_flag(user_id: int, db: AsyncSession = Depends(get_session)
         update: UserModel = result.scalars().one_or_none()
 
         if not update:
-            raise HTTPException(detail=ERROR_MESSAGES["USER_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
+            raise HTTPException(
+                detail=ERROR_MESSAGES["USER_NOT_FOUND"],
+                status_code=status.HTTP_404_NOT_FOUND,
+            )
 
         update.deleted = 1
         await session.commit()
