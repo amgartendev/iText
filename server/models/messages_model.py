@@ -6,7 +6,7 @@ class MessagesModel(settings.DBBaseModel):
     __tablename__ = "messages"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    message_uid = Column(String(255))
+    message_uid = Column(String(255), unique=True)
     sender = Column(String(255))
     recipient = Column(String(255))
     created_at = Column(DateTime)
