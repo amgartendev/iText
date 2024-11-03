@@ -41,3 +41,13 @@ def test_update_user(user_id, expected_status):
 def test_update_deleted_flag(user_id, expected_status):
     response = requests.put(f"{ENDPOINT}/delete/{user_id}")
     assert response.status_code == expected_status
+
+
+@pytest.mark.parametrize("username, password, expected_status", [("jamgarten", "123456", 200), ("jamgarten", "123", 401), ("random_username", "123456", 401)])
+def test_login(username, password, expected_status):
+    payload = {
+        "username": username,
+        "password": password
+    }
+    response = requests.post(f"{ENDPOINT}/login/", json=payload)
+    assert response.status_code == expected_status
