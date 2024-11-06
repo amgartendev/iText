@@ -348,6 +348,9 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 592, 459))
         self.scrollArea.setWidget(self.scrollAreaWidgetContents_3)
 
+        self.scroll_layout = QVBoxLayout(self.scrollAreaWidgetContents_3)
+        self.scroll_layout.setSpacing(10)
+        self.scroll_layout.setContentsMargins(10, 10, 10, 10)
         self.verticalLayout_6.addWidget(self.scrollArea)
 
 
