@@ -41,24 +41,28 @@ class MainWindow(QMainWindow):
     def display_message(self, status_code, response_data):
         if status_code == 201:
             message = response_data["content"]
+            sender = response_data["sender"] 
+            alignment = Qt.AlignRight if self.profile["user_uid"] == sender else Qt.AlignLeft
 
             font = QFont()
             font.setPointSize(11)
 
             message_label = QLabel(message)
             message_label.setWordWrap(True)
-            message_label.setStyleSheet("background-color: #007AFF; color: #FFFFFF; padding: 5px; border-radius: 5px;")
-            
+            if self.profile["user_uid"] == sender:
+                message_label.setStyleSheet("background-color: #007AFF; color: #FFFFFF; padding: 5px; border-radius: 5px;")
+            else:
+                message_label.setStyleSheet("background-color: red; color: #FFFFFF; padding: 5px; border-radius: 5px;")
             container = QWidget()
             container.setMaximumWidth(300)
             container.setMaximumHeight(100)
 
             container_layout = QHBoxLayout(container)
-            container_layout.addWidget(message_label, alignment=Qt.AlignRight)
+            container_layout.addWidget(message_label, alignment=alignment)
             container_layout.setContentsMargins(0, 0, 0, 0)
             container.setLayout(container_layout)
 
-            self.ui.scroll_layout.addWidget(container, alignment=Qt.AlignRight)
+            self.ui.scroll_layout.addWidget(container, alignment=alignment)
             self.ui.scrollArea.verticalScrollBar().setValue(self.ui.scrollArea.verticalScrollBar().maximum())
 
             pygame.mixer.music.load(os.path.join(utils.AUDIO_FOLDER, "SentMessage.wav"))

@@ -1,8 +1,67 @@
+import asyncio
+import json
+from contextlib import asynccontextmanager
+
+import websockets
 from api.v1.api import api_router
 from core.configs import settings
 from fastapi import FastAPI
 
-app = FastAPI(title="iText", version="1.0.0")
+WEBSOCKET_PORT = 8001
+connections = {}
+
+
+async def websocket_server(websocket, _):
+    user_uid = None
+    try:
+        async for client in websocket:
+            client = json.loads(client)
+            action = client.get("action")
+
+            # Handle login action
+            if action == "login" and "user_uid" in client:
+                user_uid = client["user_uid"]
+                
+                if user_uid not in connections:
+                    connections[user_uid] = websocket
+                    print(f"{client['username']} connected to the server!")
+                    await websocket.send(f"{client['username']} connected to the server!")
+
+            # Handle message action
+            elif action == "message" and "content" in client:
+                sender = client.get("sender", None)
+                recipient = client.get("recipient", None)
+
+                if sender is None or recipient is None:
+                    return
+
+                message = client["content"]
+                for user, conn in connections.items():
+                    if user == recipient:
+                        print(f"{sender} to {recipient}")  # TODO Add log
+                        response_data = {"sender": sender, "message": message}
+                        await conn.send(json.dumps(response_data))
+
+    except websockets.exceptions.ConnectionClosed:
+        print("A client just disconnected")
+    finally:
+        if user_uid and user_uid in connections:
+            del connections[user_uid]
+
+
+async def start_websocket_server():
+    print("WebSocket server listening on", WEBSOCKET_PORT)
+    server = await websockets.serve(websocket_server, "localhost", WEBSOCKET_PORT)
+    await server.wait_closed()
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    asyncio.create_task(start_websocket_server())
+    yield
+
+
+app = FastAPI(title="iText", version="1.0.0", lifespan=lifespan)
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
 
