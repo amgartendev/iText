@@ -16,11 +16,11 @@ router = APIRouter()
 
 
 # POST Create message
-@router.post("/{sender_id}/{recipient_id}", response_model=MessagesSchemaBase, status_code=status.HTTP_201_CREATED)
-async def post_message(sender_id: int, recipient_id: int, message_data: MessagesSchemaCreate, db: AsyncSession = Depends(get_session)):    
+@router.post("/{sender_uid}/{recipient_uid}", response_model=MessagesSchemaBase, status_code=status.HTTP_201_CREATED)
+async def post_message(sender_uid: str, recipient_uid: str, message_data: MessagesSchemaCreate, db: AsyncSession = Depends(get_session)):    
     async with db as session:
         # Check if sender exists
-        query = select(UserModel.user_uid).filter(UserModel.id == sender_id)
+        query = select(UserModel.user_uid).filter(UserModel.user_uid == sender_uid)
         result = await session.execute(query)
         sender: UserModel = result.scalars().one_or_none()
 
@@ -28,7 +28,7 @@ async def post_message(sender_id: int, recipient_id: int, message_data: Messages
             raise HTTPException(detail=ERROR_MESSAGES["SENDER_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
 
         # Check if recipient exists
-        query = select(UserModel.user_uid).filter(UserModel.id == recipient_id)
+        query = select(UserModel.user_uid).filter(UserModel.user_uid == recipient_uid)
         result = await session.execute(query)
         recipient: UserModel = result.scalars().one_or_none()
 
@@ -49,17 +49,17 @@ async def post_message(sender_id: int, recipient_id: int, message_data: Messages
 
 
 # GET messages from user
-@router.get("/{user_id}", response_model=List[MessagesSchemaBase], status_code=status.HTTP_200_OK)
-async def get_messages(user_id: int, db: AsyncSession = Depends(get_session)):
+@router.get("/{user_uid}", response_model=List[MessagesSchemaBase], status_code=status.HTTP_200_OK)
+async def get_messages(user_uid: str, db: AsyncSession = Depends(get_session)):
     async with db as session:
-        query = select(UserModel).filter(UserModel.id == user_id)
+        query = select(UserModel).filter(UserModel.user_uid == user_uid)
         result = await session.execute(query)
         user: UserModel = result.scalars().one_or_none()
 
         if not user:
             raise HTTPException(detail=ERROR_MESSAGES["USER_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
 
-        query = select(MessagesModel).filter(or_(MessagesModel.sender == user_id, MessagesModel.recipient == user_id))
+        query = select(MessagesModel).filter(or_(MessagesModel.sender == user_uid, MessagesModel.recipient == user_uid))
         result = await session.execute(query)
         messages: List[MessagesModel] = result.scalars().all()
         return messages

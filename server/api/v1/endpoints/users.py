@@ -76,10 +76,10 @@ async def get_user(user_uid: str, db: AsyncSession = Depends(get_session)):
 
 
 # PUT Update Profile
-@router.put("/{user_id}", response_model=UserSchemaBase, status_code=status.HTTP_202_ACCEPTED)
-async def put_profile(user_id: int, user: UserSchemaUpdate, db: AsyncSession = Depends(get_session)):
+@router.put("/{user_uid}", response_model=UserSchemaBase, status_code=status.HTTP_202_ACCEPTED)
+async def put_profile(user_uid: str, user: UserSchemaUpdate, db: AsyncSession = Depends(get_session)):
     async with db as session:
-        query = select(UserModel).filter(UserModel.id == user_id)
+        query = select(UserModel).filter(UserModel.user_uid == user_uid)
         result = await session.execute(query)
         user_update: UserModel = result.scalars().one_or_none()
 
@@ -103,10 +103,10 @@ async def put_profile(user_id: int, user: UserSchemaUpdate, db: AsyncSession = D
 
 
 # PUT Update Deleted Flag
-@router.put("/delete/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def put_deleted_flag(user_id: int, db: AsyncSession = Depends(get_session)):
+@router.put("/delete/{user_uid}", status_code=status.HTTP_204_NO_CONTENT)
+async def put_deleted_flag(user_uid: str, db: AsyncSession = Depends(get_session)):
     async with db as session:
-        query = select(UserModel).filter(UserModel.id == user_id)
+        query = select(UserModel).filter(UserModel.user_uid == user_uid)
         result = await session.execute(query)
         update: UserModel = result.scalars().one_or_none()
 
