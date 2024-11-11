@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'untitledDmVBYZ.ui'
+## Form generated from reading UI file 'untitledBzjcrO.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.8.0
 ##
@@ -17,10 +17,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
                            QKeySequence, QLinearGradient, QPainter, QPalette,
                            QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-                               QLineEdit, QListWidget, QListWidgetItem,
-                               QMainWindow, QPushButton, QScrollArea,
-                               QSizePolicy, QStackedWidget, QVBoxLayout,
-                               QWidget)
+                               QLineEdit, QMainWindow, QPushButton,
+                               QScrollArea, QSizePolicy, QStackedWidget,
+                               QVBoxLayout, QWidget)
 
 
 class Ui_MainWindow(object):
@@ -185,14 +184,17 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.listWidget_contacts_list = QListWidget(self.frame)
-        self.listWidget_contacts_list.setObjectName(u"listWidget_contacts_list")
-        self.listWidget_contacts_list.setStyleSheet(u"QListWidget {\n"
-"	background-color: #E0E0DF;\n"
-"}")
-        self.listWidget_contacts_list.setFrameShape(QFrame.Shape.NoFrame)
+        self.scrollArea = QScrollArea(self.frame)
+        self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setStyleSheet(u"background-color: #E0E0DF;\n"
+"")
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 208, 492))
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
-        self.verticalLayout_2.addWidget(self.listWidget_contacts_list)
+        self.verticalLayout_2.addWidget(self.scrollArea)
 
         self.frame_2 = QFrame(self.frame)
         self.frame_2.setObjectName(u"frame_2")
@@ -340,18 +342,18 @@ class Ui_MainWindow(object):
         self.verticalLayout_6.setSpacing(0)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
-        self.scrollArea = QScrollArea(self.frame_6)
-        self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollAreaWidgetContents_3 = QWidget()
-        self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 592, 459))
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents_3)
+        self.scrollArea_2 = QScrollArea(self.frame_6)
+        self.scrollArea_2.setObjectName(u"scrollArea_2")
+        self.scrollArea_2.setWidgetResizable(True)
+        self.scrollAreaWidgetContents_2 = QWidget()
+        self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 592, 489))
+        self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
 
-        self.scroll_layout = QVBoxLayout(self.scrollAreaWidgetContents_3)
+        self.scroll_layout = QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.scroll_layout.setSpacing(10)
         self.scroll_layout.setContentsMargins(10, 10, 10, 10)
-        self.verticalLayout_6.addWidget(self.scrollArea)
+        self.verticalLayout_6.addWidget(self.scrollArea_2)
 
 
         self.verticalLayout_3.addWidget(self.frame_6)

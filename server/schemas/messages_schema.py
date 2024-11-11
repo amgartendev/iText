@@ -5,8 +5,8 @@ from pydantic import BaseModel, ConfigDict
 
 
 class MessagesSchemaBase(BaseModel):
-    sender: Optional[int] = None  # TODO change to str and get from uid instead of id
-    recipient: Optional[int] = None  # TODO change to str and get from uid instead of id
+    sender: Optional[str] = None
+    recipient: Optional[str] = None
     created_at: Optional[datetime] = None
     content: str
 
