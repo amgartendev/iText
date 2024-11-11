@@ -21,6 +21,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.profile = None
+        self.current_chat = None
 
         self.ui.button_send_message.clicked.connect(self.send_message)
 
@@ -75,15 +76,18 @@ class MainWindow(QMainWindow):
         self.populate_contact_list_thread.start()
     
     def setup_conversation(self, status_code, response_data):
+        self.current_chat = response_data["user_added"]
         if status_code == 200:
             contact_name = response_data["contact_name"]
             self.ui.label_contact_name.setText(contact_name)
 
     def send_message(self):
+        sender = self.profile["user_uid"]
+        recipient = self.current_chat
         message = self.ui.input_message.text()
         if not message:
             return
-        self.send_message_thread = SendMessageThread(message)
+        self.send_message_thread = SendMessageThread(sender, recipient, message)
         self.send_message_thread.finished.connect(self.display_message)
         self.send_message_thread.start()
 

@@ -86,14 +86,16 @@ class GetUserInfoThread(QThread):
 class SendMessageThread(QThread):
     finished = Signal(int, dict)
 
-    def __init__(self, message):
+    def __init__(self, sender, recipient, message):
         super().__init__()
+        self.sender = sender
+        self.recipient = recipient
         self.message = message
 
     def run(self):
         payload = {"content": self.message}
         try:
-            request = requests.post(f"{utils.API_URL}/{utils.API_BASE_ENDPOINT}/messages/1/2", json=payload)
+            request = requests.post(f"{utils.API_URL}/{utils.API_BASE_ENDPOINT}/messages/{self.sender}/{self.recipient}", json=payload)
             self.finished.emit(request.status_code, request.json())
 
             # Create and set a new event loop for this thread
