@@ -63,38 +63,28 @@ async def get_users(db: AsyncSession = Depends(get_session)):
 
 
 # GET User
-@router.get("/{user_id}", response_model=UserSchemaBase, status_code=status.HTTP_200_OK)
-async def get_user(user_id: int, db: AsyncSession = Depends(get_session)):
+@router.get("/{user_uid}", response_model=UserSchemaBase, status_code=status.HTTP_200_OK)
+async def get_user(user_uid: str, db: AsyncSession = Depends(get_session)):
     async with db as session:
-        query = select(UserModel).filter(UserModel.id == user_id)
+        query = select(UserModel).filter(UserModel.user_uid == user_uid)
         result = await session.execute(query)
         user: UserModel = result.scalars().one_or_none()
 
         if not user:
-            raise HTTPException(
-                detail=ERROR_MESSAGES["USER_NOT_FOUND"],
-                status_code=status.HTTP_404_NOT_FOUND,
-            )
+            raise HTTPException(detail=ERROR_MESSAGES["USER_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
         return user
 
 
 # PUT Update Profile
-@router.put(
-    "/{user_id}", response_model=UserSchemaBase, status_code=status.HTTP_202_ACCEPTED
-)
-async def put_profile(
-    user_id: int, user: UserSchemaUpdate, db: AsyncSession = Depends(get_session)
-):
+@router.put("/{user_id}", response_model=UserSchemaBase, status_code=status.HTTP_202_ACCEPTED)
+async def put_profile(user_id: int, user: UserSchemaUpdate, db: AsyncSession = Depends(get_session)):
     async with db as session:
         query = select(UserModel).filter(UserModel.id == user_id)
         result = await session.execute(query)
         user_update: UserModel = result.scalars().one_or_none()
 
         if not user_update:
-            raise HTTPException(
-                detail=ERROR_MESSAGES["USER_NOT_FOUND"],
-                status_code=status.HTTP_404_NOT_FOUND,
-            )
+            raise HTTPException(detail=ERROR_MESSAGES["USER_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
 
         if user.first_name:
             user_update.first_name = user.first_name
@@ -121,10 +111,7 @@ async def put_deleted_flag(user_id: int, db: AsyncSession = Depends(get_session)
         update: UserModel = result.scalars().one_or_none()
 
         if not update:
-            raise HTTPException(
-                detail=ERROR_MESSAGES["USER_NOT_FOUND"],
-                status_code=status.HTTP_404_NOT_FOUND,
-            )
+            raise HTTPException(detail=ERROR_MESSAGES["USER_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
 
         update.deleted = 1
         await session.commit()

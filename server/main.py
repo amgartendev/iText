@@ -17,6 +17,7 @@ async def websocket_server(websocket, _):
         async for client in websocket:
             client = json.loads(client)
             action = client.get("action")
+            data = client.get("data")
 
             # Handle login action
             if action == "login" and "user_uid" in client:
@@ -27,15 +28,27 @@ async def websocket_server(websocket, _):
                     print(f"{client['username']} connected to the server!")
                     await websocket.send(f"{client['username']} connected to the server!")
 
+            # Handle users action
+            elif action == "users":
+                print("WEBSOCKET: USERS")
+
+            # Handle contacts action
+            elif action == "contacts":
+                user_uid = data[0].get("user_uid", None)
+                
+                for user, conn in connections.items():
+                    if user == user_uid:
+                        await conn.send(json.dumps(data[0]))
+
             # Handle message action
-            elif action == "message" and "content" in client:
-                sender = client.get("sender", None)
-                recipient = client.get("recipient", None)
+            elif action == "message" and "content" in data:
+                sender = data.get("sender", None)
+                recipient = data.get("recipient", None)
 
                 if sender is None or recipient is None:
                     return
 
-                message = client["content"]
+                message = data["content"]
                 for user, conn in connections.items():
                     if user == recipient:
                         print(f"{sender} to {recipient}")  # TODO Add log
