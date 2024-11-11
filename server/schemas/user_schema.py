@@ -1,18 +1,18 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class UserSchemaBase(BaseModel):
     user_uid: Optional[str] = None
     first_name: str
     last_name: Optional[str] = None
+    username: Optional[str] = None
     created_at: Optional[datetime] = None
     deleted: Optional[int] = 0
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class UserSchemaCreate(UserSchemaBase):

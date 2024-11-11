@@ -18,16 +18,9 @@ router = APIRouter()
 # POST Create message
 @router.post("/{sender_id}/{recipient_id}", response_model=MessagesSchemaBase, status_code=status.HTTP_201_CREATED)
 async def post_message(sender_id: int, recipient_id: int, message_data: MessagesSchemaCreate, db: AsyncSession = Depends(get_session)):    
-    new_message: MessagesModel = MessagesModel(
-        message_uid=str(uuid4()),
-        sender=sender_id,
-        recipient=recipient_id,
-        created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        content=message_data.content
-    )
     async with db as session:
         # Check if sender exists
-        query = select(UserModel).filter(UserModel.id == sender_id)
+        query = select(UserModel.user_uid).filter(UserModel.id == sender_id)
         result = await session.execute(query)
         sender: UserModel = result.scalars().one_or_none()
 
@@ -35,12 +28,20 @@ async def post_message(sender_id: int, recipient_id: int, message_data: Messages
             raise HTTPException(detail=ERROR_MESSAGES["SENDER_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
 
         # Check if recipient exists
-        query = select(UserModel).filter(UserModel.id == recipient_id)
+        query = select(UserModel.user_uid).filter(UserModel.id == recipient_id)
         result = await session.execute(query)
         recipient: UserModel = result.scalars().one_or_none()
 
         if not recipient:
             raise HTTPException(detail=ERROR_MESSAGES["RECIPIENT_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
+
+        new_message: MessagesModel = MessagesModel(
+            message_uid=str(uuid4()),
+            sender=sender,
+            recipient=recipient,
+            created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            content=message_data.content
+        )
 
         session.add(new_message)
         await session.commit()
