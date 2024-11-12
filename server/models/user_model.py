@@ -11,5 +11,6 @@ class UserModel(settings.DBBaseModel):
     last_name = Column(String(255))
     username = Column(String(255), unique=True)
     password = Column(String(255))
+    profile_picture = Column(String(255), default="default.png")
     created_at = Column(DateTime)
     deleted = Column(Integer, default=0)

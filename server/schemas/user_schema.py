@@ -9,6 +9,7 @@ class UserSchemaBase(BaseModel):
     first_name: str
     last_name: Optional[str] = None
     username: Optional[str] = None
+    profile_picture: Optional[str] = None
     created_at: Optional[datetime] = None
     deleted: Optional[int] = 0
 

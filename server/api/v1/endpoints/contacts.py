@@ -5,7 +5,7 @@ from core.utils import ERROR_MESSAGES
 from fastapi import APIRouter, Depends, HTTPException, status
 from models.contacts_model import ContactsModel
 from models.user_model import UserModel
-from schemas.contacts_schema import ContactsSchemaBase
+from schemas.contacts_schema import ContactInfoResponse, ContactsSchemaBase
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
@@ -66,15 +66,29 @@ async def get_contacts(user_uid: str, db: AsyncSession = Depends(get_session)):
 
 
 # GET Contact Info
-@router.get("/info/{user_uid}/{user_added}", response_model=ContactsSchemaBase, status_code=status.HTTP_200_OK)
+@router.get("/info/{user_uid}/{user_added}", response_model=ContactInfoResponse, status_code=status.HTTP_200_OK)
 async def get_contact_info(user_uid: str, user_added: str, db: AsyncSession = Depends(get_session)):
     async with db as session:
         query = (
-            select(ContactsModel)
-            .join(UserModel, ContactsModel.user_uid == UserModel.user_uid)
+            select(UserModel, ContactsModel)
+            .select_from(ContactsModel)
+            .join(UserModel, ContactsModel.user_added == UserModel.user_uid)
             .filter(ContactsModel.user_uid == user_uid)
             .filter(ContactsModel.user_added == user_added)
         )
         result = await session.execute(query)
-        user: ContactsModel = result.scalars().one_or_none()
-        return user
+        data = result.first()
+
+        if data is None:
+            return None
+
+        user, contact = data
+        return ContactInfoResponse(
+            user_uid=user.user_uid,
+            first_name=user.first_name,
+            last_name=user.last_name,
+            username=user.username,
+            contact_name=contact.contact_name,
+            user_added=contact.user_added,
+            profile_picture=user.profile_picture
+        )
