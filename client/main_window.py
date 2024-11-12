@@ -26,9 +26,18 @@ class MainWindow(QMainWindow):
         self.ui.button_send_message.clicked.connect(self.send_message)
 
     def setup_ui(self):
-        self.ui.label_profile_name.setText(f"{self.profile['first_name']} {self.profile['last_name']}")
-        self.ui.label_username.setText(f"@{self.profile['username']}")
-        self.ui.image_profile.setPixmap(QPixmap(os.path.join(utils.PROFILE_IMAGES_FOLDER, "default.png")))
+        first_name = self.profile["first_name"]
+        last_name = self.profile["last_name"]
+        username = self.profile["username"]
+        profile_picture = self.profile["profile_picture"]
+
+        image_found = os.path.isfile(os.path.join(utils.PROFILE_IMAGES_FOLDER, profile_picture))
+        if not image_found:
+            profile_picture = "default.png"
+
+        self.ui.label_profile_name.setText(f"{first_name} {last_name}")
+        self.ui.label_username.setText(f"@{username}")
+        self.ui.image_profile.setPixmap(QPixmap(os.path.join(utils.PROFILE_IMAGES_FOLDER, profile_picture)))
         self.populate_contact_list(self.profile["user_uid"])
 
     def populate_contact_list(self, user_uid):
