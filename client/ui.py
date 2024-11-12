@@ -355,6 +355,7 @@ class Ui_MainWindow(object):
         self.frame_6.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_6.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_6 = QVBoxLayout(self.frame_6)
+        self.verticalLayout_6.setSpacing(0)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.scrollArea_2 = QScrollArea(self.frame_6)
@@ -365,6 +366,9 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 592, 489))
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
 
+        self.scroll_layout = QVBoxLayout(self.scrollAreaWidgetContents_2)
+        self.scroll_layout.setSpacing(10)
+        self.scroll_layout.setContentsMargins(10, 10, 10, 10)
         self.verticalLayout_6.addWidget(self.scrollArea_2)
 
 
