@@ -357,6 +357,7 @@ QPushButton:hover {
           </property>
           <property name="styleSheet">
            <string notr="true">QFrame {
+	background-color: #E0E0DF;
 	border-right: 1.5px solid #CCCFCD;
 }</string>
           </property>
@@ -383,10 +384,26 @@ QPushButton:hover {
             <number>0</number>
            </property>
            <item>
+            <widget class="QPushButton" name="button_add_contact">
+             <property name="maximumSize">
+              <size>
+               <width>40</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QScrollArea" name="scrollArea">
              <property name="styleSheet">
               <string notr="true">background-color: #E0E0DF;
-</string>
+border-top: none;</string>
              </property>
              <property name="widgetResizable">
               <bool>true</bool>
@@ -396,8 +413,8 @@ QPushButton:hover {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>208</width>
-                <height>492</height>
+                <width>206</width>
+                <height>466</height>
                </rect>
               </property>
              </widget>
@@ -421,6 +438,10 @@ QPushButton:hover {
               <string notr="true">QFrame #frame_2 {
 	background-color: #E0E0DF;
 	border-top: 1.5px solid #CCCFCD;
+}
+
+QFrame {
+	border: none;
 }</string>
              </property>
              <property name="frameShape">
@@ -439,7 +460,7 @@ QPushButton:hover {
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">background-color: lime;</string>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string/>
@@ -544,6 +565,9 @@ QPushButton:hover {
                  </property>
                  <item>
                   <widget class="QPushButton" name="button_settings">
+                   <property name="cursor">
+                    <cursorShape>PointingHandCursor</cursorShape>
+                   </property>
                    <property name="layoutDirection">
                     <enum>Qt::LayoutDirection::LeftToRight</enum>
                    </property>
@@ -562,6 +586,9 @@ QPushButton:hover {
                  </item>
                  <item>
                   <widget class="QPushButton" name="button_logout">
+                   <property name="cursor">
+                    <cursorShape>PointingHandCursor</cursorShape>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QPushButton {
 	background-color: #E0E0DF;
@@ -773,6 +800,9 @@ QPushButton:hover {
               </item>
               <item>
                <widget class="QPushButton" name="button_send_message">
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
                 <property name="text">
                  <string/>
                 </property>

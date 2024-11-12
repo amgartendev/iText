@@ -2,6 +2,7 @@ import os
 import sys
 
 import pygame
+import qtawesome
 import utils
 from login_window import Login
 from PySide6 import QtCore
@@ -27,6 +28,9 @@ class MainWindow(QMainWindow):
         self.ui.button_send_message.clicked.connect(self.send_message)
 
     def setup_ui(self):
+        self.ui.button_settings.setIcon(qtawesome.icon("fa5s.cog"))
+        self.ui.button_logout.setIcon(qtawesome.icon("fa5s.sign-out-alt"))
+
         first_name = self.profile["first_name"]
         last_name = self.profile["last_name"]
         username = self.profile["username"]
