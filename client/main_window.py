@@ -76,10 +76,17 @@ class MainWindow(QMainWindow):
         self.populate_contact_list_thread.start()
     
     def setup_conversation(self, status_code, response_data):
+        contact_pfp = response_data["profile_picture"]
+        image_found = os.path.isfile(os.path.join(utils.PROFILE_IMAGES_FOLDER, contact_pfp))
+        if not image_found:
+            contact_pfp = "default.png"
+
         self.current_chat = response_data["user_added"]
         if status_code == 200:
             contact_name = response_data["contact_name"]
+
             self.ui.label_contact_name.setText(contact_name)
+            self.ui.image_contact.setPixmap(QPixmap(os.path.join(utils.PROFILE_IMAGES_FOLDER, contact_pfp)))
 
     def send_message(self):
         sender = self.profile["user_uid"]
