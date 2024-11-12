@@ -212,7 +212,6 @@ class Ui_MainWindow(object):
         self.image_profile = QLabel(self.frame_2)
         self.image_profile.setObjectName(u"image_profile")
         self.image_profile.setMaximumSize(QSize(80, 16777215))
-        self.image_profile.setStyleSheet(u"background-color: lime;")
         self.image_profile.setPixmap(QPixmap(u":/images/background.jpg"))
         self.image_profile.setScaledContents(True)
 
@@ -319,7 +318,6 @@ class Ui_MainWindow(object):
         self.image_contact.setObjectName(u"image_contact")
         self.image_contact.setMaximumSize(QSize(80, 16777215))
         self.image_contact.setStyleSheet(u"")
-        self.image_contact.setPixmap(QPixmap(u":/images/background.jpg"))
         self.image_contact.setScaledContents(True)
 
         self.horizontalLayout_3.addWidget(self.image_contact)
