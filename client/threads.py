@@ -83,6 +83,28 @@ class GetUserInfoThread(QThread):
         loop.close()
 
 
+class GetConversationThread(QThread):
+    finished = Signal(int, list)
+
+    def __init__(self, sender, recipient):
+        super().__init__()
+        self.sender = sender
+        self.recipient = recipient
+    
+    def run(self):
+        try:
+            request = requests.get(f"{utils.API_URL}/{utils.API_BASE_ENDPOINT}/messages/conversation/{self.sender}/{self.recipient}")
+            self.finished.emit(request.status_code, request.json())
+
+            # TODO Implement websocket to make things real-time
+            """loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            loop.run_until_complete(connect_to_websocket(request.json(), "conversation"))
+            loop.close()"""
+        except requests.RequestException as error_message:
+            self.finished.emit(500, {"error": str(error_message)})
+
+
 class SendMessageThread(QThread):
     finished = Signal(int, dict)
 

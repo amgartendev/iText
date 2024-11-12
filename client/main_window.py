@@ -9,7 +9,8 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QCursor, QFont, QPixmap
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QMainWindow,
                                QPushButton, QVBoxLayout, QWidget)
-from threads import GetUserInfoThread, PopulateContactList, SendMessageThread
+from threads import (GetConversationThread, GetUserInfoThread,
+                     PopulateContactList, SendMessageThread)
 from ui import Ui_MainWindow
 
 
@@ -96,6 +97,55 @@ class MainWindow(QMainWindow):
 
             self.ui.label_contact_name.setText(contact_name)
             self.ui.image_contact.setPixmap(QPixmap(os.path.join(utils.PROFILE_IMAGES_FOLDER, contact_pfp)))
+
+        self.clear_messages()
+        self.get_conversation()
+
+    def clear_messages(self):
+        for i in reversed(range(self.ui.scroll_layout.count())):
+            widget = self.ui.scroll_layout.itemAt(i).widget()
+            if widget is not None:
+                widget.deleteLater()
+
+    def get_conversation(self):
+        sender = self.profile["user_uid"]
+        recipient = self.current_chat
+
+        self.get_conversation_thread = GetConversationThread(sender, recipient)
+        self.get_conversation_thread.finished.connect(self.display_conversation)
+        self.get_conversation_thread.start()
+    
+    def display_conversation(self, status_code, response_data):
+        # TODO Create a function to not duplicate the same styling block
+        if status_code == 200:
+            for item in response_data:
+                sender = item["sender"]
+                message = item["content"]
+
+                alignment = Qt.AlignRight if self.profile["user_uid"] == sender else Qt.AlignLeft
+
+                font = QFont()
+                font.setPointSize(11)
+
+                message_label = QLabel(message)
+                message_label.setWordWrap(True)
+                
+                if sender == self.profile["user_uid"]:
+                    message_label.setStyleSheet("background-color: #007AFF; color: #FFFFFF; padding: 5px; border-radius: 5px;")
+                else:
+                    message_label.setStyleSheet("background-color: red; color: #FFFFFF; padding: 5px; border-radius: 5px;")
+                
+                container = QWidget()
+                container.setMaximumWidth(300)
+                container.setMaximumHeight(100)
+
+                container_layout = QHBoxLayout(container)
+                container_layout.addWidget(message_label, alignment=alignment)
+                container_layout.setContentsMargins(0, 0, 0, 0)
+                container.setLayout(container_layout)
+
+                self.ui.scroll_layout.addWidget(container, alignment=alignment)
+                self.ui.scrollArea.verticalScrollBar().setValue(self.ui.scrollArea.verticalScrollBar().maximum())
 
     def send_message(self):
         sender = self.profile["user_uid"]
