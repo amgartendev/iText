@@ -7,10 +7,10 @@ from core.utils import ERROR_MESSAGES
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from models.user_model import UserModel
 from schemas.user_schema import (UserSchemaBase, UserSchemaCreate,
-                                 UserSchemaLogin, UserSchemaUpdate)
+                                 UserSchemaLogin, UserSchemaUpdate,
+                                 UserSchemaUsername)
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-
 
 router = APIRouter()
 
@@ -67,6 +67,19 @@ async def get_users(db: AsyncSession = Depends(get_session)):
 async def get_user(user_uid: str, db: AsyncSession = Depends(get_session)):
     async with db as session:
         query = select(UserModel).filter(UserModel.user_uid == user_uid)
+        result = await session.execute(query)
+        user: UserModel = result.scalars().one_or_none()
+
+        if not user:
+            raise HTTPException(detail=ERROR_MESSAGES["USER_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
+        return user
+
+
+# GET User by Username
+@router.get("/username/{username}", response_model=UserSchemaUsername, status_code=status.HTTP_200_OK)
+async def get_user_uid_by_username(username: str, db: AsyncSession = Depends(get_session)):
+    async with db as session:
+        query = select(UserModel).filter(UserModel.username == username)
         result = await session.execute(query)
         user: UserModel = result.scalars().one_or_none()
 

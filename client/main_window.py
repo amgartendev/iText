@@ -8,9 +8,11 @@ from login_window import Login
 from PySide6 import QtCore
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QCursor, QFont, QPixmap
-from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QMainWindow,
-                               QPushButton, QVBoxLayout, QWidget)
-from threads import (GetConversationThread, GetUserInfoThread,
+from PySide6.QtWidgets import (QApplication, QDialog, QHBoxLayout, QLabel,
+                               QLineEdit, QMainWindow, QPushButton,
+                               QVBoxLayout, QWidget)
+from threads import (AddContactThread, GetConversationThread,
+                     GetUIDByUsernameThread, GetUserInfoThread,
                      PopulateContactList, SendMessageThread)
 from ui import Ui_MainWindow
 
@@ -26,6 +28,7 @@ class MainWindow(QMainWindow):
         self.current_chat = None
 
         self.ui.button_send_message.clicked.connect(self.send_message)
+        self.ui.button_add_contact.clicked.connect(self.add_contact_dialog)
 
     def setup_ui(self):
         self.ui.button_settings.setIcon(qtawesome.icon("fa5s.cog"))
@@ -44,6 +47,85 @@ class MainWindow(QMainWindow):
         self.ui.label_username.setText(f"@{username}")
         self.ui.image_profile.setPixmap(QPixmap(os.path.join(utils.PROFILE_IMAGES_FOLDER, profile_picture)))
         self.populate_contact_list(self.profile["user_uid"])
+
+    def add_contact_dialog(self):
+        dialog = QDialog()
+        dialog.setFixedSize(520, 80)
+        dialog.setWindowTitle("iText - Add new contact")
+        dialog.setModal(True)
+
+        font = QFont()
+        font.setPointSize(10)
+
+        Vlayout = QVBoxLayout()
+        Hlayout = QHBoxLayout()
+
+        self.line_edit_contact_username = QLineEdit()
+        self.line_edit_contact_username.setFont(font)
+        self.line_edit_contact_username.setPlaceholderText("Add contacts by their username")
+
+        self.line_edit_contact_name = QLineEdit()
+        self.line_edit_contact_name.setFont(font)
+        self.line_edit_contact_name.setPlaceholderText("Contact name")
+
+        button_add = QPushButton("Add Contact")
+        button_add.clicked.connect(self.add_contact_thread)
+        button_add.setFont(font)
+
+        Hlayout.addWidget(self.line_edit_contact_username)
+        Hlayout.addWidget(self.line_edit_contact_name)
+        Hlayout.addWidget(button_add)
+
+        self.feedback_message = QLabel("Feedback Message")
+        self.feedback_message.setFont(font)
+        self.feedback_message.setAlignment(Qt.AlignCenter)
+        self.feedback_message.setWordWrap(True)
+        self.feedback_message.setHidden(True)
+
+        Vlayout.addLayout(Hlayout)
+        Vlayout.addWidget(self.feedback_message)
+
+        Vlayout.setAlignment(Qt.AlignCenter)
+
+        dialog.setLayout(Vlayout)
+        dialog.exec()
+
+    def add_contact_thread(self):
+        user_added = self.line_edit_contact_username.text()
+
+        if user_added == self.profile["username"]:
+            self.feedback_message.setText("You can't add yourself to your contacts. Are you trying to break the app? :(")
+            self.feedback_message.setHidden(False)
+            return
+
+        self.uid_from_username_thread = GetUIDByUsernameThread(user_added)
+        self.uid_from_username_thread.finished.connect(self.add_contact)
+        self.uid_from_username_thread.start()
+
+    def add_contact(self, status_code, response_data):
+        if status_code == 200:
+            user_uid = self.profile["user_uid"]
+            user_added = response_data["user_uid"]
+            contact_name = self.line_edit_contact_name.text()
+
+            self.contact_thread = AddContactThread(user_uid, user_added, contact_name)
+            self.contact_thread.finished.connect(self.contact_feedback_message)
+            self.contact_thread.start()
+        
+        if status_code == 404:
+            self.feedback_message.setText(f"User not found!")
+            self.feedback_message.setHidden(False)
+            return
+
+    def contact_feedback_message(self, status_code, response_data):
+        if status_code == 201:
+            contact_name = response_data["contact_name"]
+
+            self.feedback_message.setText(f"User has been added to your contact list as {contact_name}!")
+            self.feedback_message.setHidden(False)
+
+            self.populate_contact_list(self.profile["user_uid"])
+            return
 
     def populate_contact_list(self, user_uid):
         self.populate_contact_list_thread = PopulateContactList(user_uid)

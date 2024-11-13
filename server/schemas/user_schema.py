@@ -32,3 +32,8 @@ class UserSchemaUpdate(UserSchemaCreate):
 class UserSchemaLogin(BaseModel):
     username: str
     password: str 
+
+
+class UserSchemaUsername(BaseModel):
+    username: str
+    user_uid: str
