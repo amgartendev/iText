@@ -24,6 +24,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.setWindowTitle("iText")
         self.profile = None
         self.current_chat = None
 
@@ -68,13 +69,13 @@ class MainWindow(QMainWindow):
         self.line_edit_contact_name.setFont(font)
         self.line_edit_contact_name.setPlaceholderText("Contact name")
 
-        button_add = QPushButton("Add Contact")
-        button_add.clicked.connect(self.add_contact_thread)
-        button_add.setFont(font)
+        self.button_add = QPushButton("Add Contact")
+        self.button_add.clicked.connect(self.add_contact_thread)
+        self.button_add.setFont(font)
 
         Hlayout.addWidget(self.line_edit_contact_username)
         Hlayout.addWidget(self.line_edit_contact_name)
-        Hlayout.addWidget(button_add)
+        Hlayout.addWidget(self.button_add)
 
         self.feedback_message = QLabel("Feedback Message")
         self.feedback_message.setFont(font)
@@ -91,10 +92,24 @@ class MainWindow(QMainWindow):
         dialog.exec()
 
     def add_contact_thread(self):
-        user_added = self.line_edit_contact_username.text()
+        user_added = self.line_edit_contact_username.text().strip()
+        contact_name = self.line_edit_contact_name.text().strip()
+
+        if len(user_added) == 0 or user_added.isspace():
+            self.feedback_message.setText("The username can't be empty!")
+            self.feedback_message.setStyleSheet("color: red; font-weight: bold;")
+            self.feedback_message.setHidden(False)
+            return
 
         if user_added == self.profile["username"]:
-            self.feedback_message.setText("You can't add yourself to your contacts. Are you trying to break the app? :(")
+            self.feedback_message.setText("You can't add yourself to your contacts. Nice try, though! :)")
+            self.feedback_message.setStyleSheet("color: red; font-weight: bold;")
+            self.feedback_message.setHidden(False)
+            return
+
+        if len(contact_name) == 0 or contact_name.isspace():
+            self.feedback_message.setText("You need to specify the contact name!")
+            self.feedback_message.setStyleSheet("color: red; font-weight: bold;")
             self.feedback_message.setHidden(False)
             return
 
@@ -106,13 +121,14 @@ class MainWindow(QMainWindow):
         if status_code == 200:
             user_uid = self.profile["user_uid"]
             user_added = response_data["user_uid"]
-            contact_name = self.line_edit_contact_name.text()
+            contact_name = self.line_edit_contact_name.text().strip()
 
             self.contact_thread = AddContactThread(user_uid, user_added, contact_name)
             self.contact_thread.finished.connect(self.contact_feedback_message)
             self.contact_thread.start()
         
         if status_code == 404:
+            self.feedback_message.setStyleSheet("color: red; font-weight: bold;")
             self.feedback_message.setText(f"User not found!")
             self.feedback_message.setHidden(False)
             return
@@ -121,10 +137,17 @@ class MainWindow(QMainWindow):
         if status_code == 201:
             contact_name = response_data["contact_name"]
 
-            self.feedback_message.setText(f"User has been added to your contact list as {contact_name}!")
+            self.feedback_message.setStyleSheet("color: green; font-weight: bold;")
+            self.feedback_message.setText(f"{contact_name} has been added to your contact list!")
             self.feedback_message.setHidden(False)
 
             self.populate_contact_list(self.profile["user_uid"])
+            return
+        
+        if status_code == 406:
+            self.feedback_message.setStyleSheet("color: red; font-weight: bold;")
+            self.feedback_message.setText(f"This user is already in your contact list!")
+            self.feedback_message.setHidden(False)
             return
 
     def populate_contact_list(self, user_uid):
