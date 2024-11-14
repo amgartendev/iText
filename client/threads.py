@@ -7,7 +7,16 @@ import websockets
 from PySide6.QtCore import QThread, Signal
 
 
-async def connect_to_websocket(data: dict, action: str):
+async def connect_to_websocket(data: dict, action: str) -> None:
+    """
+    Establishes a WebSocket connection to the specified URL, send an initial
+    message with the given action and data, and listens for incoming messages
+    in an ongoing loop.
+
+    Args:
+        data (dict): The payload data to be sent with the initial message.
+        action (str): The action type to include in the initial message.
+    """
     url = "ws://127.0.0.1:8001"
     async with websockets.connect(url) as ws:
         if not data:
