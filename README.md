@@ -27,9 +27,8 @@ If your platform is not listed here it was not tested yet.
 
 | Platform | Status      | Latest Python Version Tested |
 |----------|-------------|------------------------------|
-| Windows  | ✅ Working | 3.12.5                       |
-| MacOS    | ✅ Working | 3.13                         | 
-| Linux    | ✅ Working | 3.13                         |
+| Windows  | ✅ Working | 3.12.5                        |
+| MacOS    | ✅ Working | 3.13                          | 
 
 
 ## 📦 Install and setup iText
