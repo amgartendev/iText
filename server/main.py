@@ -20,17 +20,13 @@ async def websocket_server(websocket, _):
             data = client.get("data")
 
             # Handle login action
-            if action == "login" and "user_uid" in client:
-                user_uid = client["user_uid"]
+            if action == "login" and "user_uid" in data:
+                user_uid = data["user_uid"]
                 
                 if user_uid not in connections:
                     connections[user_uid] = websocket
-                    print(f"{client['username']} connected to the server!")
-                    await websocket.send(f"{client['username']} connected to the server!")
-
-            # Handle users action
-            elif action == "users":
-                print("WEBSOCKET: USERS")
+                    print(f"{data['username']} connected to the server!")
+                    await websocket.send(f"{data['username']} connected to the server!")
 
             # Handle contacts action
             elif action == "contacts":
@@ -42,19 +38,12 @@ async def websocket_server(websocket, _):
 
             # Handle message action
             elif action == "message" and "content" in data:
-                sender = data.get("sender", None)
-                recipient = data.get("recipient", None)
-
-                if sender is None or recipient is None:
-                    return
-
-                message = data["content"]
+                sender = data["sender"]
+                recipient = data["recipient"]
+                
                 for user, conn in connections.items():
                     if user == recipient:
-                        print(f"{sender} to {recipient}")  # TODO Add log
-                        response_data = {"sender": sender, "message": message}
-                        await conn.send(json.dumps(response_data))
-
+                        await conn.send("update_conversation")
     except websockets.exceptions.ConnectionClosed:
         print("A client just disconnected")
     finally:

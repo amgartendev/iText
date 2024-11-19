@@ -7,7 +7,7 @@ import utils
 from login_window import Login
 from PySide6 import QtCore
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QCursor, QFont, QPixmap
+from PySide6.QtGui import QCursor, QFont, QKeySequence, QPixmap, QShortcut
 from PySide6.QtWidgets import (QApplication, QDialog, QHBoxLayout, QLabel,
                                QLineEdit, QMainWindow, QPushButton,
                                QVBoxLayout, QWidget)
@@ -30,6 +30,11 @@ class MainWindow(QMainWindow):
 
         self.ui.button_send_message.clicked.connect(self.send_message)
         self.ui.button_add_contact.clicked.connect(self.add_contact_dialog)
+
+        # Shortcuts
+        key_sequence_send_message = QKeySequence(Qt.Key.Key_Return) 
+        self.shortcut_send_message = QShortcut(key_sequence_send_message, self)
+        self.shortcut_send_message.activated.connect(self.send_message)
 
     def setup_ui(self) -> None:
         """
