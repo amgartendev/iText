@@ -15,6 +15,7 @@ class Login(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.setWindowTitle("iText - Login")
+        self.setFixedSize(800, 600)
         self.is_password_revealed = False
         self.running_thread = False
 
