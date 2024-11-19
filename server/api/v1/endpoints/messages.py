@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from models.messages_model import MessagesModel
 from models.user_model import UserModel
 from schemas.messages_schema import MessagesSchemaBase, MessagesSchemaCreate
-from sqlalchemy import or_
+from sqlalchemy import and_, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
@@ -76,3 +76,27 @@ async def get_message(message_uid: str, db: AsyncSession = Depends(get_session))
         if not message:
             raise HTTPException(detail=ERROR_MESSAGES["MESSAGE_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
         return message
+
+
+# GET Conversation
+@router.get("/conversation/{sender_uid}/{recipient_uid}", response_model=List[MessagesSchemaBase], status_code=status.HTTP_200_OK)
+async def get_conversation(sender_uid: str, recipient_uid: str, db: AsyncSession = Depends(get_session)):
+    async with db as session:
+        query = (
+            select(MessagesModel)
+            .where(
+                or_(
+                    and_(
+                        MessagesModel.sender == sender_uid,
+                        MessagesModel.recipient == recipient_uid
+                    ),
+                    and_(
+                        MessagesModel.sender == recipient_uid,
+                        MessagesModel.recipient == sender_uid
+                    )
+                )
+            )
+        )
+        result = await session.execute(query)
+        messages: MessagesModel = result.scalars().all()
+        return messages

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'untitledBzjcrO.ui'
+## Form generated from reading UI file 'interfaceCstKXA.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.8.0
 ##
@@ -131,6 +131,7 @@ class Ui_MainWindow(object):
         self.label_error_message = QLabel(self.login_page)
         self.label_error_message.setObjectName(u"label_error_message")
         self.label_error_message.setEnabled(True)
+        self.label_error_message.setHidden(True)
         self.label_error_message.setGeometry(QRect(210, 360, 411, 25))
         font4 = QFont()
         font4.setPointSize(11)
@@ -176,6 +177,7 @@ class Ui_MainWindow(object):
         self.frame.setSizePolicy(sizePolicy)
         self.frame.setMaximumSize(QSize(210, 16777215))
         self.frame.setStyleSheet(u"QFrame {\n"
+"	background-color: #E0E0DF;\n"
 "	border-right: 1.5px solid #CCCFCD;\n"
 "}")
         self.frame.setFrameShape(QFrame.Shape.NoFrame)
@@ -184,14 +186,22 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.button_add_contact = QPushButton(self.frame)
+        self.button_add_contact.setObjectName(u"button_add_contact")
+        self.button_add_contact.setMaximumSize(QSize(40, 40))
+        self.button_add_contact.setIcon(qtawesome.icon("fa5s.user-plus"))
+        self.button_add_contact.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+
+        self.verticalLayout_2.addWidget(self.button_add_contact)
+
         self.scrollArea = QScrollArea(self.frame)
         self.scrollArea.setObjectName(u"scrollArea")
         self.scrollArea.setStyleSheet(u"background-color: #E0E0DF;\n"
-"")
+"border-top: none;")
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 208, 492))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 206, 466))
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
         self.verticalLayout_2.addWidget(self.scrollArea)
@@ -204,6 +214,10 @@ class Ui_MainWindow(object):
         self.frame_2.setStyleSheet(u"QFrame #frame_2 {\n"
 "	background-color: #E0E0DF;\n"
 "	border-top: 1.5px solid #CCCFCD;\n"
+"}\n"
+"\n"
+"QFrame {\n"
+"	border: none;\n"
 "}")
         self.frame_2.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
@@ -212,6 +226,7 @@ class Ui_MainWindow(object):
         self.image_profile = QLabel(self.frame_2)
         self.image_profile.setObjectName(u"image_profile")
         self.image_profile.setMaximumSize(QSize(80, 16777215))
+        self.image_profile.setStyleSheet(u"")
         self.image_profile.setPixmap(QPixmap(u":/images/background.jpg"))
         self.image_profile.setScaledContents(True)
 
@@ -259,6 +274,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.button_settings = QPushButton(self.frame_8)
         self.button_settings.setObjectName(u"button_settings")
+        self.button_settings.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.button_settings.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.button_settings.setStyleSheet(u"QPushButton {\n"
 "	background-color: #E0E0DF;\n"
@@ -270,6 +286,7 @@ class Ui_MainWindow(object):
 
         self.button_logout = QPushButton(self.frame_8)
         self.button_logout.setObjectName(u"button_logout")
+        self.button_logout.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.button_logout.setStyleSheet(u"QPushButton {\n"
 "	background-color: #E0E0DF;\n"
 "}")
@@ -318,6 +335,7 @@ class Ui_MainWindow(object):
         self.image_contact.setObjectName(u"image_contact")
         self.image_contact.setMaximumSize(QSize(80, 16777215))
         self.image_contact.setStyleSheet(u"")
+        self.image_contact.setPixmap(QPixmap(u":/images/background.jpg"))
         self.image_contact.setScaledContents(True)
 
         self.horizontalLayout_3.addWidget(self.image_contact)
@@ -376,6 +394,8 @@ class Ui_MainWindow(object):
 
         self.button_send_message = QPushButton(self.frame_5)
         self.button_send_message.setObjectName(u"button_send_message")
+        self.button_send_message.setIcon(qtawesome.icon("fa5.paper-plane"))
+        self.button_send_message.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.horizontalLayout_4.addWidget(self.button_send_message)
 
@@ -411,6 +431,7 @@ class Ui_MainWindow(object):
         self.label_error_message.setText(QCoreApplication.translate("MainWindow", u"Error Message Placeholder", None))
         self.button_reveal_password.setText("")
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"SIGNUP", None))
+        self.button_add_contact.setText("")
         self.image_profile.setText("")
         self.label_profile_name.setText(QCoreApplication.translate("MainWindow", u"Name", None))
         self.label_username.setText(QCoreApplication.translate("MainWindow", u"Username", None))

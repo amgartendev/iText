@@ -7,7 +7,16 @@ import websockets
 from PySide6.QtCore import QThread, Signal
 
 
-async def connect_to_websocket(data: dict, action: str):
+async def connect_to_websocket(data: dict, action: str) -> None:
+    """
+    Establishes a WebSocket connection to the specified URL, send an initial
+    message with the given action and data, and listens for incoming messages
+    in an ongoing loop.
+
+    Args:
+        data (dict): The payload data to be sent with the initial message.
+        action (str): The action type to include in the initial message.
+    """
     url = "ws://127.0.0.1:8001"
     async with websockets.connect(url) as ws:
         if not data:
@@ -39,6 +48,43 @@ class LoginThread(QThread):
             loop.run_until_complete(connect_to_websocket(request.json(), "login"))
             loop.close()
 
+        except requests.RequestException as error_message:
+            self.finished.emit(500, {"error": str(error_message)})
+
+
+class GetUIDByUsernameThread(QThread):
+    finished = Signal(int, dict)
+
+    def __init__(self, username):
+        super().__init__()
+        self.username = username
+
+    def run(self):
+        try:
+            request = requests.get(f"{utils.API_URL}/{utils.API_BASE_ENDPOINT}/users/username/{self.username}")
+            self.finished.emit(request.status_code, request.json())
+        except requests.RequestException as error_message:
+            self.finished.emit(500, {"error": str(error_message)})
+
+
+class AddContactThread(QThread):
+    finished = Signal(int, dict)
+
+    def __init__(self, user_uid, user_added, contact_name):
+        super().__init__()
+        self.user_uid = user_uid
+        self.user_added = user_added
+        self.contact_name = contact_name
+
+    def run(self):
+        try:
+            payload = {
+                "user_uid": self.user_uid,
+                "user_added": self.user_added,
+                "contact_name": self.contact_name
+            }
+            request = requests.post(f"{utils.API_URL}/{utils.API_BASE_ENDPOINT}/contacts", json=payload)
+            self.finished.emit(request.status_code, request.json())
         except requests.RequestException as error_message:
             self.finished.emit(500, {"error": str(error_message)})
 
@@ -81,6 +127,28 @@ class GetUserInfoThread(QThread):
         asyncio.set_event_loop(loop)
         loop.run_until_complete(connect_to_websocket(request.json(), "users"))
         loop.close()
+
+
+class GetConversationThread(QThread):
+    finished = Signal(int, list)
+
+    def __init__(self, sender, recipient):
+        super().__init__()
+        self.sender = sender
+        self.recipient = recipient
+    
+    def run(self):
+        try:
+            request = requests.get(f"{utils.API_URL}/{utils.API_BASE_ENDPOINT}/messages/conversation/{self.sender}/{self.recipient}")
+            self.finished.emit(request.status_code, request.json())
+
+            # TODO Implement websocket to make things real-time
+            """loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            loop.run_until_complete(connect_to_websocket(request.json(), "conversation"))
+            loop.close()"""
+        except requests.RequestException as error_message:
+            self.finished.emit(500, {"error": str(error_message)})
 
 
 class SendMessageThread(QThread):
