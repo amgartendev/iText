@@ -5,6 +5,7 @@ the database and update the UID in the pytest parameters.
 
 import os
 import sys
+from typing import Type
 
 sys.path.insert(1, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -28,7 +29,7 @@ client = TestClient(app)  # TODO Use the client to make internal requests instea
         ("h1oi2hdj", "h1oi2hdj", 404, False),
     ],
 )
-def test_post_create_message(sender_uid, recipient_uid, expected_status, succeeded):
+def test_post_create_message(sender_uid: str, recipient_uid: str, expected_status: int, succeeded: bool) -> None:
     payload = {"content": "Hello, this is a test message from PyTest :)"}
     response = requests.post(f"{ENDPOINT}/{sender_uid}/{recipient_uid}", json=payload)
 
@@ -39,13 +40,13 @@ def test_post_create_message(sender_uid, recipient_uid, expected_status, succeed
 
 
 @pytest.mark.parametrize("user_uid, expected_status, expected_type", [("2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", 200, list), ("h1oi2hdj", 404, dict)])
-def test_get_messages_from_user(user_uid, expected_status, expected_type):
+def test_get_messages_from_user(user_uid: str, expected_status: int, expected_type: Type) -> None:
     response = requests.get(f"{ENDPOINT}/{user_uid}")
     assert response.status_code == expected_status
     assert isinstance(response.json(), expected_type)
 
 
 @pytest.mark.parametrize("message_uid, expected_status", [("6668175d-4d42-4637-848c-d48d7cb97e70", 200), ("h1oi2hdj", 404)])
-def test_get_message(message_uid, expected_status):
+def test_get_message(message_uid: str, expected_status: int) -> None:
     response = requests.get(f"{ENDPOINT}/message/{message_uid}")
     assert response.status_code == expected_status
