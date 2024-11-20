@@ -1,3 +1,8 @@
+"""
+Important: Please note that for all tests to pass, you must have users registered in
+the database and update the UID in the pytest parameters.
+"""
+
 import os
 import sys
 
@@ -10,6 +15,7 @@ from fastapi.testclient import TestClient
 from main import app
 
 ENDPOINT = f"{settings.API_URL}/{settings.API_V1_STR}/users"
+test_username = "jamgarten"
 client = TestClient(app)  # TODO Use the client to make internal requests instead of using the requests library
 
 
@@ -19,31 +25,31 @@ def test_get_users():
     assert isinstance(response.json(), list)
 
 
-@pytest.mark.parametrize("user_id, expected_status", [(1, 200), (999, 404)])
-def test_get_user(user_id, expected_status):
-    response = requests.get(f"{ENDPOINT}/{user_id}")
+@pytest.mark.parametrize("user_uid, expected_status", [("2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", 200), ("h1oi2hdj", 404)])
+def test_get_user(user_uid, expected_status):
+    response = requests.get(f"{ENDPOINT}/{user_uid}")
     assert response.status_code == expected_status
 
 
-@pytest.mark.parametrize("user_id, expected_status", [(1, 202), (2, 202)])
-def test_update_user(user_id, expected_status):
+@pytest.mark.parametrize("user_uid, expected_status", [("2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", 202), ("d58e8a2e-b60f-429c-a8db-19b30a4a1c31", 406)])
+def test_update_user(user_uid, expected_status):
     payload = {
         "first_name": "João",
         "last_name": "Amgarten",
-        "username": "jamgarten",
+        "username": test_username,
         "password": "123456",
     }
-    response = requests.put(f"{ENDPOINT}/{user_id}", json=payload)
+    response = requests.put(f"{ENDPOINT}/{user_uid}", json=payload)
     assert response.status_code == expected_status
 
 
-@pytest.mark.parametrize("user_id, expected_status", [(1, 204), (2, 204), (999, 404)])
-def test_update_deleted_flag(user_id, expected_status):
-    response = requests.put(f"{ENDPOINT}/delete/{user_id}")
+@pytest.mark.parametrize("user_uid, expected_status", [("2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", 204), ("d58e8a2e-b60f-429c-a8db-19b30a4a1c31", 204), ("h1oi2hdj", 404)])
+def test_update_deleted_flag(user_uid, expected_status):
+    response = requests.put(f"{ENDPOINT}/delete/{user_uid}")
     assert response.status_code == expected_status
 
 
-@pytest.mark.parametrize("username, password, expected_status", [("jamgarten", "123456", 200), ("jamgarten", "123", 401), ("random_username", "123456", 401)])
+@pytest.mark.parametrize("username, password, expected_status", [(test_username, "123456", 200), (test_username, "123", 401), ("random_username", "123456", 401)])
 def test_login(username, password, expected_status):
     payload = {
         "username": username,

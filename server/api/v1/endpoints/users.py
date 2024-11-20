@@ -111,6 +111,13 @@ async def put_profile(user_uid: str, user: UserSchemaUpdate, db: AsyncSession = 
         if user.password:
             user_update.password = user.password
 
+        query = select(UserModel).filter(UserModel.username == user.username)
+        result = await session.execute(query)
+        user: UserModel = result.scalars().one_or_none()
+
+        if user:
+            raise HTTPException(detail=ERROR_MESSAGES["USERNAME_ALREADY_TAKEN"], status_code=status.HTTP_406_NOT_ACCEPTABLE)
+
         await session.commit()
         return user_update
 
