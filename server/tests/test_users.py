@@ -25,27 +25,27 @@ def test_get_users():
     assert isinstance(response.json(), list)
 
 
-@pytest.mark.parametrize("user_id, expected_status", [("2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", 200), ("h1oi2hdj", 404)])
-def test_get_user(user_id, expected_status):
-    response = requests.get(f"{ENDPOINT}/{user_id}")
+@pytest.mark.parametrize("user_uid, expected_status", [("2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", 200), ("h1oi2hdj", 404)])
+def test_get_user(user_uid, expected_status):
+    response = requests.get(f"{ENDPOINT}/{user_uid}")
     assert response.status_code == expected_status
 
 
-@pytest.mark.parametrize("user_id, expected_status", [("2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", 202), ("d58e8a2e-b60f-429c-a8db-19b30a4a1c31", 406)])
-def test_update_user(user_id, expected_status):
+@pytest.mark.parametrize("user_uid, expected_status", [("2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", 202), ("d58e8a2e-b60f-429c-a8db-19b30a4a1c31", 406)])
+def test_update_user(user_uid, expected_status):
     payload = {
         "first_name": "João",
         "last_name": "Amgarten",
         "username": test_username,
         "password": "123456",
     }
-    response = requests.put(f"{ENDPOINT}/{user_id}", json=payload)
+    response = requests.put(f"{ENDPOINT}/{user_uid}", json=payload)
     assert response.status_code == expected_status
 
 
-@pytest.mark.parametrize("user_id, expected_status", [("2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", 204), ("d58e8a2e-b60f-429c-a8db-19b30a4a1c31", 204), ("h1oi2hdj", 404)])
-def test_update_deleted_flag(user_id, expected_status):
-    response = requests.put(f"{ENDPOINT}/delete/{user_id}")
+@pytest.mark.parametrize("user_uid, expected_status", [("2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", 204), ("d58e8a2e-b60f-429c-a8db-19b30a4a1c31", 204), ("h1oi2hdj", 404)])
+def test_update_deleted_flag(user_uid, expected_status):
+    response = requests.put(f"{ENDPOINT}/delete/{user_uid}")
     assert response.status_code == expected_status
 
 

@@ -19,7 +19,7 @@ client = TestClient(app)  # TODO Use the client to make internal requests instea
 
 
 @pytest.mark.parametrize(
-    "sender_id, recipient_id, expected_status, succeeded",
+    "sender_uid, recipient_uid, expected_status, succeeded",
     [
         ("2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", "2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", 201, True),
         ("2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", "d58e8a2e-b60f-429c-a8db-19b30a4a1c31", 201, True),
@@ -28,9 +28,9 @@ client = TestClient(app)  # TODO Use the client to make internal requests instea
         ("h1oi2hdj", "h1oi2hdj", 404, False),
     ],
 )
-def test_post_create_message(sender_id, recipient_id, expected_status, succeeded):
+def test_post_create_message(sender_uid, recipient_uid, expected_status, succeeded):
     payload = {"content": "Hello, this is a test message from PyTest :)"}
-    response = requests.post(f"{ENDPOINT}/{sender_id}/{recipient_id}", json=payload)
+    response = requests.post(f"{ENDPOINT}/{sender_uid}/{recipient_uid}", json=payload)
 
     assert response.status_code == expected_status
     if succeeded:
@@ -38,9 +38,9 @@ def test_post_create_message(sender_id, recipient_id, expected_status, succeeded
         assert "content" in response.json()
 
 
-@pytest.mark.parametrize("user_id, expected_status, expected_type", [("2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", 200, list), ("h1oi2hdj", 404, dict)])
-def test_get_messages_from_user(user_id, expected_status, expected_type):
-    response = requests.get(f"{ENDPOINT}/{user_id}")
+@pytest.mark.parametrize("user_uid, expected_status, expected_type", [("2fbc5d3b-6ed4-4cc6-9976-c22b355c4316", 200, list), ("h1oi2hdj", 404, dict)])
+def test_get_messages_from_user(user_uid, expected_status, expected_type):
+    response = requests.get(f"{ENDPOINT}/{user_uid}")
     assert response.status_code == expected_status
     assert isinstance(response.json(), expected_type)
 
