@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'interfaceCstKXA.ui'
+## Form generated from reading UI file 'interfacelCPgAG.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.8.0
 ##
@@ -110,6 +110,12 @@ class Ui_MainWindow(object):
         self.button_signup.setStyleSheet(u"QPushButton {\n"
 "	background-color: #F3F3F3;\n"
 "	border: none;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"	background-color: #F3F3F3;\n"
+"	border: none;\n"
+"	text-decoration: underline;\n"
 "}")
         self.button_forgot_password = QPushButton(self.login_page)
         self.button_forgot_password.setObjectName(u"button_forgot_password")
@@ -154,13 +160,203 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.login_page)
         self.signup_page = QWidget()
         self.signup_page.setObjectName(u"signup_page")
+        self.input_signup_firstname = QLineEdit(self.signup_page)
+        self.input_signup_firstname.setObjectName(u"input_signup_firstname")
+        self.input_signup_firstname.setGeometry(QRect(160, 160, 221, 31))
+        self.input_signup_firstname.setStyleSheet(u"QLineEdit {\n"
+"	background-color: #F3F3F3;\n"
+"	border: 1px solid #F3F3F3;\n"
+"	border-bottom-color: grey;\n"
+"}\n"
+"\n"
+"QLineEdit:focus {\n"
+"	border-bottom-color: #007AFF;\n"
+"}")
+        self.input_signup_lastname = QLineEdit(self.signup_page)
+        self.input_signup_lastname.setObjectName(u"input_signup_lastname")
+        self.input_signup_lastname.setGeometry(QRect(410, 160, 221, 31))
+        self.input_signup_lastname.setStyleSheet(u"QLineEdit {\n"
+"	background-color: #F3F3F3;\n"
+"	border: 1px solid #F3F3F3;\n"
+"	border-bottom-color: grey;\n"
+"}\n"
+"\n"
+"QLineEdit:focus {\n"
+"	border-bottom-color: #007AFF;\n"
+"}")
+        self.input_signup_username = QLineEdit(self.signup_page)
+        self.input_signup_username.setObjectName(u"input_signup_username")
+        self.input_signup_username.setGeometry(QRect(160, 250, 221, 31))
+        self.input_signup_username.setStyleSheet(u"QLineEdit {\n"
+"	background-color: #F3F3F3;\n"
+"	border: 1px solid #F3F3F3;\n"
+"	border-bottom-color: grey;\n"
+"}\n"
+"\n"
+"QLineEdit:focus {\n"
+"	border-bottom-color: #007AFF;\n"
+"}")
+        self.input_signup_password = QLineEdit(self.signup_page)
+        self.input_signup_password.setObjectName(u"input_signup_password")
+        self.input_signup_password.setGeometry(QRect(410, 250, 221, 31))
+        self.input_signup_password.setStyleSheet(u"QLineEdit {\n"
+"	background-color: #F3F3F3;\n"
+"	border: 1px solid #F3F3F3;\n"
+"	border-bottom-color: grey;\n"
+"}\n"
+"\n"
+"QLineEdit:focus {\n"
+"	border-bottom-color: #007AFF;\n"
+"}")
+        self.input_signup_password.setEchoMode(QLineEdit.EchoMode.Password)
+        self.input_signup_confirm_password = QLineEdit(self.signup_page)
+        self.input_signup_confirm_password.setObjectName(u"input_signup_confirm_password")
+        self.input_signup_confirm_password.setGeometry(QRect(160, 350, 221, 31))
+        self.input_signup_confirm_password.setStyleSheet(u"QLineEdit {\n"
+"	background-color: #F3F3F3;\n"
+"	border: 1px solid #F3F3F3;\n"
+"	border-bottom-color: grey;\n"
+"}\n"
+"\n"
+"QLineEdit:focus {\n"
+"	border-bottom-color: #007AFF;\n"
+"}")
+        self.input_signup_confirm_password.setEchoMode(QLineEdit.EchoMode.Password)
+        self.label = QLabel(self.signup_page)
+        self.label.setObjectName(u"label")
+        self.label.setGeometry(QRect(160, 140, 81, 16))
+        self.label.setFont(font4)
+        self.label_2 = QLabel(self.signup_page)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setGeometry(QRect(410, 140, 81, 16))
+        self.label_2.setFont(font4)
+        self.label_3 = QLabel(self.signup_page)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setGeometry(QRect(160, 230, 81, 16))
+        self.label_3.setFont(font4)
         self.label_4 = QLabel(self.signup_page)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setGeometry(QRect(290, 210, 221, 111))
-        font5 = QFont()
-        font5.setPointSize(40)
-        font5.setBold(True)
-        self.label_4.setFont(font5)
+        self.label_4.setGeometry(QRect(410, 230, 81, 16))
+        self.label_4.setFont(font4)
+        self.label_5 = QLabel(self.signup_page)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setGeometry(QRect(160, 330, 131, 16))
+        self.label_5.setFont(font4)
+        self.button_create_account = QPushButton(self.signup_page)
+        self.button_create_account.setObjectName(u"button_create_account")
+        self.button_create_account.setGeometry(QRect(210, 460, 410, 40))
+        self.button_create_account.setFont(font)
+        self.button_create_account.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.button_create_account.setStyleSheet(u"QPushButton {\n"
+"	background-color: #007AFF;\n"
+"	color: #FFFFFF;\n"
+"	border-radius: 20px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"	background-color: #1F8AFF;\n"
+"}")
+        self.button_back_to_login = QPushButton(self.signup_page)
+        self.button_back_to_login.setObjectName(u"button_back_to_login")
+        self.button_back_to_login.setGeometry(QRect(210, 520, 411, 24))
+        self.button_back_to_login.setFont(font1)
+        self.button_back_to_login.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.button_back_to_login.setStyleSheet(u"QPushButton {\n"
+"	background-color: #F3F3F3;\n"
+"	border: none;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"	background-color: #F3F3F3;\n"
+"	border: none;\n"
+"	text-decoration: underline;\n"
+"}")
+        self.label_error_message_firstname = QLabel(self.signup_page)
+        self.label_error_message_firstname.setObjectName(u"label_error_message_firstname")
+        self.label_error_message_firstname.setGeometry(QRect(160, 200, 221, 21))
+        self.label_error_message_firstname.setFont(font4)
+        self.label_error_message_firstname.setHidden(True)
+        self.label_error_message_firstname.setStyleSheet(u"QLabel {\n"
+"	color: red;\n"
+"}")
+        self.label_error_message_firstname.setWordWrap(True)
+        self.label_error_message_lastname = QLabel(self.signup_page)
+        self.label_error_message_lastname.setObjectName(u"label_error_message_lastname")
+        self.label_error_message_lastname.setGeometry(QRect(410, 200, 221, 21))
+        self.label_error_message_lastname.setFont(font4)
+        self.label_error_message_lastname.setHidden(True)
+        self.label_error_message_lastname.setStyleSheet(u"QLabel {\n"
+"	color: red;\n"
+"}")
+        self.label_error_message_lastname.setWordWrap(True)
+        self.label_error_message_username = QLabel(self.signup_page)
+        self.label_error_message_username.setObjectName(u"label_error_message_username")
+        self.label_error_message_username.setGeometry(QRect(160, 290, 221, 21))
+        self.label_error_message_username.setFont(font4)
+        self.label_error_message_username.setHidden(True)
+        self.label_error_message_username.setStyleSheet(u"QLabel {\n"
+"	color: red;\n"
+"}")
+        self.label_error_message_username.setWordWrap(True)
+        self.label_error_message_confirm_password = QLabel(self.signup_page)
+        self.label_error_message_confirm_password.setObjectName(u"label_error_message_confirm_password")
+        self.label_error_message_confirm_password.setGeometry(QRect(160, 390, 221, 21))
+        self.label_error_message_confirm_password.setFont(font4)
+        self.label_error_message_confirm_password.setHidden(True)
+        self.label_error_message_confirm_password.setStyleSheet(u"QLabel {\n"
+"	color: red;\n"
+"}")
+        self.label_error_message_confirm_password.setWordWrap(True)
+        self.label_error_message_password = QLabel(self.signup_page)
+        self.label_error_message_password.setObjectName(u"label_error_message_password")
+        self.label_error_message_password.setGeometry(QRect(410, 290, 221, 41))
+        self.label_error_message_password.setFont(font4)
+        self.label_error_message_password.setHidden(True)
+        self.label_error_message_password.setStyleSheet(u"QLabel {\n"
+"	color: red;\n"
+"}")
+        self.label_error_message_password.setWordWrap(True)
+        self.label_signup_description = QLabel(self.signup_page)
+        self.label_signup_description.setObjectName(u"label_signup_description")
+        self.label_signup_description.setGeometry(QRect(150, 80, 191, 30))
+        self.label_signup_description.setFont(font)
+        self.label_signup_description.setStyleSheet(u"QLabel {\n"
+"	color: #707070;\n"
+"}")
+        self.label_signup = QLabel(self.signup_page)
+        self.label_signup.setObjectName(u"label_signup")
+        self.label_signup.setGeometry(QRect(150, 30, 131, 50))
+        self.label_signup.setFont(font2)
+        self.label_signup.setStyleSheet(u"QLabel {\n"
+"	color: #000000;\n"
+"}")
+        self.label_signup_success_message = QLabel(self.signup_page)
+        self.label_signup_success_message.setObjectName(u"label_signup_success_message")
+        self.label_signup_success_message.setGeometry(QRect(220, 430, 401, 21))
+        self.label_signup_success_message.setFont(font4)
+        self.label_signup_success_message.setHidden(True)
+        self.label_signup_success_message.setStyleSheet(u"color: #13c248;")
+        self.label_signup_success_message.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.button_signup_reveal_confirm_password = QPushButton(self.signup_page)
+        self.button_signup_reveal_confirm_password.setObjectName(u"button_signup_reveal_confirm_password")
+        self.button_signup_reveal_confirm_password.setGeometry(QRect(390, 350, 40, 40))
+        self.button_signup_reveal_confirm_password.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.button_signup_reveal_confirm_password.setIcon(qtawesome.icon("fa5.eye", color="#007AFF"))
+        self.button_signup_reveal_confirm_password.setStyleSheet(u"QPushButton {\n"
+"	border: none;\n"
+"}\n"
+"")
+        self.button_signup_reveal_confirm_password.setIconSize(QSize(22, 22))
+        self.button_signup_reveal_password = QPushButton(self.signup_page)
+        self.button_signup_reveal_password.setObjectName(u"button_signup_reveal_password")
+        self.button_signup_reveal_password.setGeometry(QRect(640, 250, 40, 40))
+        self.button_signup_reveal_password.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.button_signup_reveal_password.setIcon(qtawesome.icon("fa5.eye", color="#007AFF"))
+        self.button_signup_reveal_password.setStyleSheet(u"QPushButton {\n"
+"	border: none;\n"
+"}\n"
+"")
+        self.button_signup_reveal_password.setIconSize(QSize(22, 22))
         self.stackedWidget.addWidget(self.signup_page)
         self.main_page = QWidget()
         self.main_page.setObjectName(u"main_page")
@@ -179,7 +375,9 @@ class Ui_MainWindow(object):
         self.frame.setStyleSheet(u"QFrame {\n"
 "	background-color: #E0E0DF;\n"
 "	border-right: 1.5px solid #CCCFCD;\n"
-"}")
+"}\n"
+"\n"
+"")
         self.frame.setFrameShape(QFrame.Shape.NoFrame)
         self.frame.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_2 = QVBoxLayout(self.frame)
@@ -196,12 +394,11 @@ class Ui_MainWindow(object):
 
         self.scrollArea = QScrollArea(self.frame)
         self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setStyleSheet(u"background-color: #E0E0DF;\n"
-"border-top: none;")
+        self.scrollArea.setStyleSheet(u"background-color: #E0E0DF;")
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 206, 466))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 208, 468))
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
         self.verticalLayout_2.addWidget(self.scrollArea)
@@ -211,13 +408,13 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.frame_2.sizePolicy().hasHeightForWidth())
         self.frame_2.setSizePolicy(sizePolicy)
         self.frame_2.setMaximumSize(QSize(16777215, 70))
-        self.frame_2.setStyleSheet(u"QFrame #frame_2 {\n"
-"	background-color: #E0E0DF;\n"
-"	border-top: 1.5px solid #CCCFCD;\n"
+        self.frame_2.setStyleSheet(u"QFrame {\n"
+"	border: none;\n"
 "}\n"
 "\n"
-"QFrame {\n"
-"	border: none;\n"
+"QFrame #frame_2 {\n"
+"	background-color: #E0E0DF;\n"
+"	border-top: 1.5px solid #CCCFCD;\n"
 "}")
         self.frame_2.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
@@ -243,9 +440,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setContentsMargins(0, 0, 9, 0)
         self.label_profile_name = QLabel(self.frame_7)
         self.label_profile_name.setObjectName(u"label_profile_name")
-        font6 = QFont()
-        font6.setBold(True)
-        self.label_profile_name.setFont(font6)
+        font5 = QFont()
+        font5.setBold(True)
+        self.label_profile_name.setFont(font5)
         self.label_profile_name.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
         self.label_profile_name.setWordWrap(True)
 
@@ -266,7 +463,7 @@ class Ui_MainWindow(object):
         self.frame_8.setStyleSheet(u"QFrame {\n"
 "	background-color: #E0E0DF;\n"
 "}")
-        self.frame_8.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_8.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_8.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_5 = QVBoxLayout(self.frame_8)
         self.verticalLayout_5.setSpacing(0)
@@ -386,9 +583,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.input_message = QLineEdit(self.frame_5)
         self.input_message.setObjectName(u"input_message")
-        font7 = QFont()
-        font7.setPointSize(9)
-        self.input_message.setFont(font7)
+        font6 = QFont()
+        font6.setPointSize(9)
+        self.input_message.setFont(font6)
 
         self.horizontalLayout_4.addWidget(self.input_message)
 
@@ -413,7 +610,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
+
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -430,7 +627,28 @@ class Ui_MainWindow(object):
         self.button_forgot_password.setText(QCoreApplication.translate("MainWindow", u"FORGOT", None))
         self.label_error_message.setText(QCoreApplication.translate("MainWindow", u"Error Message Placeholder", None))
         self.button_reveal_password.setText("")
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"SIGNUP", None))
+        self.button_reveal_password.setText("")
+        self.input_signup_firstname.setPlaceholderText(QCoreApplication.translate("MainWindow", u"First name", None))
+        self.input_signup_lastname.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Last name", None))
+        self.input_signup_username.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Username", None))
+        self.input_signup_password.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Password", None))
+        self.input_signup_confirm_password.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Confirm password", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"First name", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Last name", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Username", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Password", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Confirm password", None))
+        self.button_create_account.setText(QCoreApplication.translate("MainWindow", u"C r e a t e   A c c o u n t", None))
+        self.button_back_to_login.setText(QCoreApplication.translate("MainWindow", u"Go back to log in", None))
+        self.label_error_message_firstname.setText(QCoreApplication.translate("MainWindow", u"Error Message Placeholder", None))
+        self.label_error_message_lastname.setText(QCoreApplication.translate("MainWindow", u"Error Message Placeholder", None))
+        self.label_error_message_username.setText(QCoreApplication.translate("MainWindow", u"Error Message Placeholder", None))
+        self.label_error_message_confirm_password.setText(QCoreApplication.translate("MainWindow", u"Error Message Placeholder", None))
+        self.label_error_message_password.setText(QCoreApplication.translate("MainWindow", u"Error Message Placeholder", None))
+        self.label_signup_description.setText(QCoreApplication.translate("MainWindow", u"Create your account.", None))
+        self.label_signup.setText(QCoreApplication.translate("MainWindow", u"Sign up", None))
+        self.label_signup_success_message.setText(QCoreApplication.translate("MainWindow", u"Account successfully created! Go back to the login page.", None))
+        self.button_signup_reveal_confirm_password.setText("")
         self.button_add_contact.setText("")
         self.image_profile.setText("")
         self.label_profile_name.setText(QCoreApplication.translate("MainWindow", u"Name", None))
