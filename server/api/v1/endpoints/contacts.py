@@ -80,7 +80,7 @@ async def get_contact_info(user_uid: str, user_added: str, db: AsyncSession = De
         data = result.first()
 
         if data is None:
-            return None
+            raise HTTPException(detail=ERROR_MESSAGES["USER_NOT_FOUND"], status_code=status.HTTP_404_NOT_FOUND)
 
         user, contact = data
         return ContactInfoResponse(

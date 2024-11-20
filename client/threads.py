@@ -28,6 +28,30 @@ async def connect_to_websocket(data: dict, action: str) -> None:
             response_data = await ws.recv()
 
 
+class CreateAccountThread(QThread):
+    finished = Signal(int, dict)
+
+    def __init__(self, first_name, last_name, username, password):
+        super().__init__()
+        self.first_name = first_name
+        self.last_name = last_name
+        self.username = username
+        self.password = password
+
+    def run(self):
+        payload = {
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "username": self.username,
+            "password": self.password
+        }
+        try:
+            request = requests.post(f"{utils.API_URL}/{utils.API_BASE_ENDPOINT}/users/", json=payload)
+            self.finished.emit(request.status_code, request.json())
+        except requests.RequestException as error_message:
+            self.finished.emit(500, {"error": str(error_message)})
+
+
 class LoginThread(QThread):
     finished = Signal(int, dict)
 

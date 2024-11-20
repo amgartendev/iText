@@ -5,6 +5,7 @@ from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QApplication, QLineEdit, QMainWindow
 from threads import LoginThread
 from ui import Ui_MainWindow
+from signup_window import Signup
 
 
 class Login(QMainWindow):
@@ -15,12 +16,19 @@ class Login(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.setWindowTitle("iText - Login")
+        self.setFixedSize(800, 600)
         self.is_password_revealed = False
         self.running_thread = False
 
         # Setup UI connections
         self.ui.button_reveal_password.clicked.connect(self.toggle_password_visibility)
         self.ui.button_login.clicked.connect(self.initiate_login)
+
+        self.ui.button_signup.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
+        self.ui.button_back_to_login.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(0))
+
+        self.signup_window = Signup(self.ui)
+        self.ui.button_create_account.clicked.connect(self.signup_window.initiate_account_creation)
 
     def toggle_password_visibility(self) -> None:
         """
